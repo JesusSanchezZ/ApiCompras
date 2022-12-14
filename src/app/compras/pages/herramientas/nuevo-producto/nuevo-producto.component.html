@@ -1,0 +1,195 @@
+<div class="mt-3 mb-3 mat-expansion-panel">
+  <h1 class="text-center m-4">Agregar Producto</h1>
+
+  <div class="row m-4 justify-content-center">
+    <div class="col-10">
+      <form [formGroup]="FormProducto" (ngSubmit)="enviarFormulario()">
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <div class="row">
+              <mat-form-field appearance="fill" *ngIf="empresas.length > 0">
+                <mat-label>Empresa</mat-label>
+                <mat-select formControlName="empresa">
+                  <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">{{ empresa.valores }}</mat-option>
+                </mat-select>
+                <mat-error>{{ formError('empresa') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill" *ngIf="unidadesMedida.length > 0">
+                <mat-label>Unidad de venta</mat-label>
+                <mat-select formControlName="unidadVenta">
+                  <mat-option *ngFor="let unidadMed of unidadesMedida" [value]="unidadMed['@Nombre']">{{ unidadMed['@Nombre'] }}</mat-option>
+                </mat-select>
+                <mat-error>{{ formError('unidadVenta') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill" *ngIf="cuentasContables.length > 0">
+                <mat-label>Cuenta Contable</mat-label>
+                <input type="text"
+                  matInput
+                  formControlName="termCuentCont"
+                  [matAutocomplete]="cuenta"
+                >
+                <mat-autocomplete autoActiveFirstOption
+                  #cuenta="matAutocomplete"
+                  (optionSelected)="cuentaSeleccionada($event)"
+                >
+                  <mat-option *ngFor="let cuentCont of cuentaBusqueda"
+                    [value]="cuentCont"
+                  >
+                    {{cuentCont['@Cuenta']}} - {{cuentCont['@Nombre']}}
+                  </mat-option>
+                  <mat-option [value]="" *ngIf="cuentaBusqueda.length == 0">
+                    Sin resultados
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error>{{formError('termCuentCont')}}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Contenido</mat-label>
+                <input matInput type="number" formControlName="contenido">
+                <mat-error>{{ formError('contenido') }} </mat-error>
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="col-6">
+
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre del producto</mat-label>
+                <input matInput type="text" formControlName="nombreProducto">
+                <mat-error>{{ formError('nombreProducto') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill" *ngIf="impuestosArticulos.length > 0">
+                <mat-label>Impuestos</mat-label>
+                <mat-select formControlName="impuestos" multiple>
+                  <mat-option *ngFor="let impArt of impuestosArticulos" [value]="impArt['@Nombre']">{{ impArt['@Nombre'] }}</mat-option>
+                </mat-select>
+                <mat-error>{{ formError('impuestos') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill" *ngIf="tipoProductos.length > 0">
+                <mat-label>Tipo de producto</mat-label>
+                <mat-select formControlName="tipoProducto">
+                  <mat-option *ngFor="let tipoProducto of tipoProductos" [value]="tipoProducto.id">{{ tipoProducto.valores }}</mat-option>
+                </mat-select>
+                <mat-error>{{ formError('tipoProducto') }}</mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Clave SAT</mat-label>
+                <input matInput type="text" formControlName="claveSat">
+              </mat-form-field>
+            </div>
+
+          </div>
+          <div class="col">
+            <mat-divider class="mb-2"></mat-divider>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <div class="row mt-4">
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="almacenaje">Almacenaje</mat-checkbox>
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="juego">Juego</mat-checkbox>
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="pesarBascula">Pesar Bascula</mat-checkbox>
+              <mat-form-field appearance="fill">
+                <mat-label>Peso Unitario</mat-label>
+                <input matInput type="number" formControlName="pesoUnitario">
+              </mat-form-field>
+              <mat-checkbox labelPosition="after" color="primary" formControlName="pedimento">Pedimento</mat-checkbox>
+              <mat-form-field appearance="fill">
+                <mat-label></mat-label>
+                <mat-select formControlName="condPedimento">
+                  <mat-option value="S">Siempre Importado</mat-option>
+                  <mat-option value="A">Algunas veces Importado</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Arancel (%)</mat-label>
+                <input matInput type="number" formControlName="arancel">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <b>Seguimiento de las Unidades</b>
+              <mat-radio-group formControlName="seguimientoUnidad">
+                <mat-radio-button class="radio-group" color="primary" value="N">Normal</mat-radio-button>
+                <mat-radio-button class="radio-group" color="primary" value="L">Lotes</mat-radio-button>
+                <mat-radio-button class="radio-group" color="primary" value="S">Números de series</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <b>Ventas</b>
+              <mat-checkbox labelPosition="after" color="primary" formControlName="factorVenta">Aplicar Factor Venta</mat-checkbox>
+              <mat-form-field appearance="fill">
+                <mat-label>Factor Venta</mat-label>
+                <input matInput type="number" formControlName="numFactorVenta">
+              </mat-form-field>
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="precioVariable">Precio Variable</mat-checkbox>
+            </div>
+          </div>
+          <div class="col">
+            <mat-divider class="mt-4 mb-4"></mat-divider>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <div class="row">
+              <b>Imprimir en formas de Venta</b>
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="imprimirVenta">Imprimir</mat-checkbox>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <b>Imprimir en formas de Compra</b>
+              <mat-checkbox labelPosition="after" color="primary" value="S" formControlName="imprimirCompra">Imprimir</mat-checkbox>
+            </div>
+          </div>
+          <div class="col">
+            <mat-divider class="mt-4 mb-4"></mat-divider>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col">
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Datos Particulares</mat-label>
+                <input matInput type="text" formControlName="datosParticulares">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <div class="row mb-4">
+              <button mat-raised-button color="primary" type="submit">Crear producto</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

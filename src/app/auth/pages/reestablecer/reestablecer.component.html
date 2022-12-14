@@ -1,0 +1,130 @@
+<div class="container text-center mat-elevation-z8 mt-5">
+  <div class="row">
+    <div class="col-sm-8 mt-5">
+      <img src="assets/img/call_center.png" alt="" class="img-fluid rounded">
+      <img src="assets/img/mc_logo.png" alt="" class="img-fluid mb-3" style="width: 50%;">
+    </div>
+    <div class="col-sm-4 clM rounded-end">
+      <div class="mb-3 mt-2">
+        <img src="assets/img/mc_mini.png" alt="" class="img-fluid" style="width: 50%;">
+      </div>
+      <div class="mb-2">
+        <h2 class="text-light text-decoration-underline fw-bold"><strong>Compras</strong></h2>
+      </div>
+      <div class="mb-2">
+        <img src="assets/img/user.png" style="width: 25%;" alt="" class="border border-2 rounded-circle">
+      </div>
+      <form [formGroup]="restForm" (ngSubmit)="reestablecer()">
+        <div class="mb-3">
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <div class="row">
+                <mat-form-field class="input">
+                  <mat-label>Contraseña anterior</mat-label>
+                  <input matInput type="password" formControlName="contrAnterior">
+                  <mat-error>{{ passAntErrorMsj }}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="row">
+                <mat-form-field class="input">
+                  <mat-label>Nueva contraseña</mat-label>
+                  <input matInput type="password" formControlName="contrNueva">
+                  <mat-error>{{ passNuErrorMsj }}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="row">
+                <mat-form-field class="input">
+                  <mat-label>Repetir nueva contraseña</mat-label>
+                  <input matInput type="password" formControlName="repContrNueva">
+                  <mat-error>{{ rePassNuErrorMsj }}</mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="row mt-3 mb-3">
+                <button type="submit" mat-raised-button color="primary" [ngClass]="{'mat-elevation-z8': false}" #button>Cambiar contraseña</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- <form
+        (ngSubmit)="reestablecer()"
+        #form="ngForm"
+        autocomplete="off"
+      >
+        <div class="mb-3">
+          <h3 class="text-light text-decoration-underline">Cambio de contraseña</h3>
+        </div>
+
+        <div class="mb-3 visually-hidden">
+          <label for="empleado" class="form-label text-light"><strong>Clave de empleado</strong></label>
+          <input
+            type="text"
+            name="s_claveEmpleado"
+            id="empleado"
+            aria-describedby="ctrlUser"
+            class="form-control"
+            [(ngModel)]="usuario.s_claveEmpleado"
+            [value]="usuario.s_claveEmpleado"
+          >
+          <div id="ctrlUser" class="invalid-feedback">
+
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="pass" class="form-label text-light">Contraseña anterior</label>
+          <input
+            type="password"
+            name="s_psw"
+            id="pass"
+            aria-describedby="ctrlPass"
+            class="form-control {{ctrPassA}}"
+            [(ngModel)]="usuario.s_passwordAntigua"
+            [value]="usuario.s_psw"
+            (focus)="!ctrPassA?'':limpiar(1)"
+          >
+          <div id="ctrlPass" class="invalid-feedback">
+            {{ msgPassA }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="Npass" class="form-label text-light">Nueva contraseña</label>
+          <input
+            class="form-control {{ctrPassN}}"
+            type="password"
+            name="s_passwordNueva"
+            id="Npass"
+            aria-describedby="ctrlNpass"
+            [(ngModel)]="usuario.s_passwordNueva"
+            [value]="usuario.s_passwordNueva"
+            (focus)="!ctrPassN? '':limpiar(2)"
+          >
+          <div id="ctrlNpass" class="invalid-feedback">
+            {{ msgPassN }}
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="RNpass" class="form-label text-light">Repetir nueva contraseña</label>
+          <input
+            class="form-control {{ctrPassRN}}"
+            type="password"
+            name="s_rnew_psw"
+            id="RNpass"
+            aria-describedby="ctrlRNpass"
+            [(ngModel)]="usuario.s_rnew_psw"
+            [value]="usuario.s_rnew_psw"
+            (focus)="!ctrPassRN?'' :limpiar(3)"
+          >
+          <div id="ctrlRNpass" class="invalid-feedback">
+            {{ msgPassRN }}
+          </div>
+        </div>
+        <div class="mb-5">
+          <button type="submit" class="btn btn-outline-light form-control mb-3">Cambiar contraseña</button>
+        </div>
+      </form> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<mat-toolbar>
+  <img class="img-thumbnail" src="assets/img/mc_logo.png" alt="">
+</mat-toolbar>
+
+<mat-nav-list>
+  <mat-action-list >
+    <mat-divider></mat-divider>
+    <button mat-list-item [matMenuTriggerFor]="solicitudes" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">list</mat-icon> Solicitudes
+    </button>
+    <mat-menu #solicitudes xPosition="before">
+      <button mat-menu-item routerLink="/compras/solicitudes/consultar">Consultar</button>
+      <button mat-menu-item routerLink="/compras/solicitudes/compras">Compras</button>
+      <button mat-menu-item routerLink="/compras/solicitudes/otros-gastos">Otros gastos</button>
+      <button mat-menu-item routerLink="/compras/solicitudes/viaticos">Viáticos</button>
+      <button mat-menu-item routerLink="/compras/solicitudes/vehiculo">Vehículo</button>
+    </mat-menu>
+    <button mat-list-item routerLink="/compras/compras" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">shopping_cart</mat-icon> Compras
+    </button>
+    <button mat-list-item routerLink="/compras/contabilidad" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">monetization_on</mat-icon> Contabilidad
+    </button>
+    <button mat-list-item [matMenuTriggerFor]="tesoreria" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">account_balance</mat-icon> Tesorería
+    </button>
+    <mat-menu #tesoreria xPosition="before">
+      <button mat-menu-item routerLink="/compras/tesoreria/consultar">Consultar</button>
+      <button mat-menu-item routerLink="/compras/tesoreria/disp-otros-gastos">Dispersión Otros Gastos</button>
+      <button mat-menu-item routerLink="/compras/tesoreria/disp-compras">Dispersión compras</button>
+    </mat-menu>
+    <!-- <button mat-list-item routerLink="/compras/asistente" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">assistant</mat-icon> Asistente
+    </button>
+    <button mat-list-item routerLink="/compras/vehiculos" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">directions_car</mat-icon> Vehículos
+    </button>
+    <button mat-list-item routerLink="/compras/usuarios" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">people</mat-icon> Usuarios
+    </button>
+    <button mat-list-item routerLink="/compras/herramientas" class="mat-elevation-z1 efecto">
+      <mat-icon color="primary">settings</mat-icon> Herramientas
+    </button> -->
+  </mat-action-list>
+</mat-nav-list>

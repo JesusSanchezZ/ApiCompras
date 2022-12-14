@@ -1,0 +1,92 @@
+<mat-accordion>
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Datos del solicitante
+      </mat-panel-title>
+      <mat-panel-description>
+
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div *ngIf="datosListos">
+        <div class="row justify-content-center">
+          <div class="col-6">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" [value]="datosUsuario.s_nombre" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Número de empleado</mat-label>
+                    <input matInput type="text" [value]="datosUsuario.s_claveEmpleado" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Puesto</mat-label>
+                    <input matInput type="text" [value]="datosUsuario.s_MC_Puesto" readonly>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-4">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Centro/Ubicación</mat-label>
+                <input matInput type="text" [value]="datosUsuario.s_MC_Centro" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Departamento</mat-label>
+                <input matInput type="text" [value]="datosUsuario.s_MC_Departamento" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Correo</mat-label>
+                <input matInput type="text" [value]="datosUsuario.s_MC_Mail" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Empresa</mat-label>
+                <input matInput type="text" [value]="datosUsuario.Nombre_Empresa" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Número de la emresa</mat-label>
+                <input matInput type="text" [value]="datosUsuario.Numero_Empresa" readonly>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+

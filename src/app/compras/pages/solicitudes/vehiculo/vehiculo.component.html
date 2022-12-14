@@ -1,0 +1,283 @@
+<div class="mt-3 mat-expansion-panel mb-5">
+  <div class="row justify-content-center">
+    <h1 class="text-center m-2">Solicitudes</h1>
+    <h3 class="text-center m-1">vehículo</h3>
+    <h3 class="text-center m-1">Registro salida de Vehículos</h3>
+  </div>
+
+  <form [formGroup]="solicitud" (submit)="registraVehiculo()">
+    <div class="row justify-content-center m-4">
+      <div class="col-10">
+        <div class="row">
+          <mat-form-field appearance="fill" *ngIf="centros.length > 0 && plazas.length > 0">
+            <mat-label>Origen </mat-label>
+            <mat-select formControlName="origen">
+              <mat-optgroup label="Plazas">
+                <mat-option *ngFor="let plaza of plazas" [value]="plaza.valores">{{ plaza.valores }}</mat-option>
+              </mat-optgroup>
+              <mat-optgroup label="Centros">
+                <mat-option *ngFor="let centro of centros" [value]="centro.valores">{{ centro.valores }}</mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Detalles
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="row justify-content-end mt-1">
+                <div class="col-8">
+                  <div class="row">
+
+                    <mat-form-field *ngIf="estados.length > 0">
+                      <mat-label>Estado</mat-label>
+                      <mat-select formControlName="estadoOrigen">
+                        <mat-option *ngFor="let estado of estados" [value]="estado.d_estado">{{ estado.d_estado }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="municipiosOrigen.length > 0">
+                      <mat-label>Municipio</mat-label>
+                      <mat-select formControlName="municipioOrigen">
+                        <mat-option *ngFor="let municipio of municipiosOrigen"
+                          [value]="municipio.D_mnpio"
+                        >
+                          {{ municipio.D_mnpio }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="coloniasOrigen.length > 0">
+                      <mat-label>Colonia</mat-label>
+                      <mat-select formControlName="coloniaOrigen">
+                        <mat-option *ngFor="let colonia of coloniasOrigen" [value]="colonia.d_asenta">{{ colonia.d_asenta }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+        <div class="row mt-3">
+          <mat-form-field appearance="fill" *ngIf="centros.length > 0 && plazas.length > 0">
+            <mat-label>Destino</mat-label>
+            <mat-select formControlName="destino">
+              <mat-optgroup label="Plazas">
+                <mat-option *ngFor="let plaza of plazas" [value]="plaza.valores">
+                  {{ plaza.valores }}
+                </mat-option>
+              </mat-optgroup>
+              <mat-optgroup label="Centros">
+                <mat-option *ngFor="let centro of centros" [value]="centro.valores">
+                  {{ centro.valores }}
+                </mat-option>
+              </mat-optgroup>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Detalles
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="row justify-content-end mt-1">
+                <div class="col-8">
+                  <div class="row">
+
+                    <mat-form-field *ngIf="estados.length > 0">
+                      <mat-label>Estado</mat-label>
+                      <mat-select formControlName="estadoDestino">
+                        <mat-option *ngFor="let estado of estados" [value]="estado.d_estado">
+                          {{ estado.d_estado }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="municipiosDestino.length > 0">
+                      <mat-label>Municipio</mat-label>
+                      <mat-select formControlName="municipioDestino">
+                        <mat-option *ngFor="let municipio of municipiosDestino" [value]="municipio.D_mnpio">{{ municipio.D_mnpio }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="coloniasDestino.length > 0">
+                      <mat-label>Colonia</mat-label>
+                      <mat-select formControlName="coloniaDestino">
+                        <mat-option *ngFor="let colonia of coloniasDestino" [value]="colonia.d_asenta">{{ colonia.d_asenta }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+
+      </div>
+      <div class="col-12 mt-4">
+        <div class="row m-4">
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-10">
+        <div class="row">
+          <div class="col-6">
+            <div class="row mb-2">
+              <mat-form-field appearance="fill" *ngIf="usuarios.length > 0">
+                <mat-label>Nombre del solicitante</mat-label>
+                <input type="text" matInput formControlName="solicitante" [matAutocomplete]="soli">
+                <mat-autocomplete autoActiveFirstOption #soli="matAutocomplete">
+                  <mat-option *ngFor="let usuario of usuarioFiltro | async" [value]="usuario.s_nombre">{{ usuario.s_nombre }}</mat-option>
+                </mat-autocomplete>
+                <!-- <mat-select formControlName="solicitante">
+                  <mat-option *ngFor="let usuario of usuarios" [value]="usuario.s_nombre">{{ usuario.s_nombre }}</mat-option>
+                </mat-select> -->
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Busqueda</mat-label>
+                <input type="text" matInput (input)="buscarUsuario()" formControlName="solicitante">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha de salida</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="fechaSalida" [min]="minFecha" readonly>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Fecha de regreso</mat-label>
+                <input matInput [matDatepicker]="picker1" formControlName="fechaRegreso" [min]="minFecha" readonly>
+                <mat-hint>DD/MM/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Tipo de transporte</mat-label>
+                <mat-select formControlName="tipoTransporte">
+                  <mat-option value="Propio">Auto Propio</mat-option>
+                  <mat-option value="Empresa">Auto Empresa</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="row justify-content-center mb-2" *ngIf="opciones">
+                <div class="col-6">
+                  <div class="row">
+                    <mat-checkbox class="m-2" color="primary" formControlName="tarjetaGas">Requerir tarjeta de gasolina</mat-checkbox>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <mat-checkbox class="m-2" color="primary" formControlName="TAG">Requerir TAG</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Observaciones</mat-label>
+                <textarea matInput rows="2"
+                          [cdkTextareaAutosize]="false"
+                          formControlName="observaciones"
+                          ></textarea>
+                <mat-hint>*Indicar si el solicitante no es quien conduce</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <mat-form-field appearance="fill">
+                <mat-label>Cantidad de segmentos</mat-label>
+                <input matInput type="number" min="0" max="10" formControlName="cantidadSegmentos">
+              </mat-form-field>
+
+              <div class="row">
+                <div class="col-8">
+                  <div class="row" formArrayName="segmentos" *ngIf="segmentosMc.length > 0">
+                    <mat-form-field appearance="fill" *ngFor="let segmento of segmentos.controls; let i=index">
+                      <mat-label>Segmento {{i + 1}}</mat-label>
+                      <mat-select id="segmento{{i}}" [formControlName]="i">
+                        <mat-option *ngFor="let seg of segmentosMc" [value]="seg">{{ seg }}</mat-option>
+                      </mat-select>
+                      <!-- <input matInput type="text" id="segmento{{i}}" [formControlName]="i"> -->
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="row" formArrayName="porcentajeSeg">
+                    <mat-form-field appearance="fill" *ngFor="let porcentaje of porcentajeSeg.controls; let i=index">
+                      <mat-label>Porcentaje {{i + 1}}</mat-label>
+                      <span matSuffix>&nbsp; %</span>
+                      <input matInput type="number" id="porcentaje{{i}}" min="0" max="100" [formControlName]="i">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Número de pasajeros extra</mat-label>
+                <input matInput type="number" min="0" max="10" formControlName="pasajerosExtra">
+              </mat-form-field>
+
+              <div class="row justify-content-center">
+                <div class="col-11">
+                  <div class="row" formArrayName="pasajeros" *ngIf="usuarios.length > 0">
+                    <mat-form-field appearance="fill" *ngFor="let pasajero of pasajeros.controls; let i=index">
+                      <mat-label>Pasajero {{i + 1}}</mat-label>
+                      <mat-select id="psajero{{i}}" [formControlName]="i">
+                        <mat-option *ngFor="let usuario of usuarios" [value]="usuario.s_nombre">{{ usuario.s_nombre }}</mat-option>
+                      </mat-select>
+                      <input matInput type="text" id="pasajero{{i}}" [formControlName]="i">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-1">
+                  <div class="row">
+                    <mat-radio-group class="radio-group" formControlName="pasBen">
+                      <div formArrayName="beneficiario">
+                        <mat-radio-button class="radio"
+                            color="primary"
+                            *ngFor="let item of beneficiario.controls; let i=index"
+                            [value]="i"
+                            matTooltip="Usuario Beneficiario"
+                        >
+                        </mat-radio-button>
+                      </div>
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center mb-4">
+          <div class="col-6">
+            <div class="row">
+              <button mat-raised-button type="submit" [disabled]="solicitud.pending" color="primary">Enviar solicitud</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<pre>{{solicitud.controls['fechaSalida'].value }}</pre>
+<pre>{{solicitud.value | json }}</pre>
+

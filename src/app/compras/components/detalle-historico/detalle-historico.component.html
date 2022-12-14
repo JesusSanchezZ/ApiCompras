@@ -1,0 +1,23 @@
+<mat-card class="primary-200">
+  <mat-card-title class="text-center">{{ historico.s_Etapa }}</mat-card-title>
+  <mat-card-content>
+    <div class="row justify-content-center">
+      <div class="col">
+        <div class="row">
+          <p class="text-justify">
+            El usuario: {{ historico.s_Nombre }}, cambió la etapa de la solicitud
+            el: {{ historico.d_FechaInsercionSistema | date:'dd/MM/YYYY h:mm a' }}
+          </p>
+        </div>
+        <div class="row" *ngIf="historico.s_Observaciones !== '' && historico.s_Observaciones !== null">
+          <h2 class="text-center">Observaciones</h2>
+          <p>{{ historico.s_Observaciones }}</p>
+        </div>
+      </div>
+    </div>
+
+  </mat-card-content>
+  <mat-card-footer >
+
+  </mat-card-footer>
+</mat-card>

@@ -1,0 +1,11 @@
+<div class="container-fluid">
+  <div class="row p-4">
+    <div class="col" *ngIf="solicitud.length > 0">
+      <app-data-table (actualiza)="actualizaDatos()"
+        (detalle)="nuevoDetalle($event)"
+        (editar)="edita($event)"
+        [solicitudGeneral]="solicitud"></app-data-table>
+      <!-- <app-angular-table [solicitud]="solicitud"></app-angular-table> -->
+    </div>
+  </div>
+</div>

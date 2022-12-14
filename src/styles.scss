@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import url('../node_modules/toastr/build/toastr.css');
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.boxCenter{
+  flex: 1 1 50px;
+}
+
+.ex-container {
+  width: 200px;
+  border: 1px solid rgb(221, 203, 203);
+}
+
+.efecto:hover {
+  margin-left: 5px;
+}
+
+.completo {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+

@@ -1,0 +1,249 @@
+<div class="row">
+  <div class="col mt-3">
+
+    <app-datos-generales></app-datos-generales>
+
+  </div>
+</div>
+
+<div class="mt-3 mb-3 mat-expansion-panel ">
+  <h1 class="text-center m-2">Solicitudes</h1>
+  <h3 class="text-center m-1">Compras</h3>
+  <h2 class="text-center" *ngIf="editar">Solicitud: {{ solicitudEditar[0].idsolicitud }}</h2>
+  <div class="row m-2">
+    <div class="col-6 ">
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState1 = true"
+                             (closed)="panelOpenState1 = false"
+                             [expanded]="panelOpenState1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Productos
+            </mat-panel-title>
+            <mat-panel-description>
+
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+              <form
+              (submit)="agregarProducto()"
+              [formGroup]="productosForm"
+              >
+                <div class="row align-items-center">
+                  <div class="row mt-1">
+                    <div class="col-10">
+                      <div class="row">
+                        <mat-form-field appearance="fill" *ngIf="productosSolicitados.length > 0">
+                          <mat-label>Producto a solicitar</mat-label>
+                          <input type="text"
+                            aria-label="Producto a solicitar"
+                            matInput
+                            formControlName="producto"
+                            [matAutocomplete]="auto"
+                          >
+                          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.s_NombreProducto">
+                              {{option.s_NombreProducto}}
+                            </mat-option>
+                          </mat-autocomplete>
+                          <mat-error>
+                            {{ productoError('producto')}}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+
+                    <div class="col-2 align-self-start">
+                      <button
+                        type="button"
+                        mat-mini-fab
+                        color="primary"
+                        class="ms-2"
+                        matTooltip="Agregar producto"
+                        matTooltipPosition="right"
+                        routerLink="/compras/herramientas/nuevoproducto">
+                        <mat-icon>
+                          add_circle_outline
+                        </mat-icon>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="row align-items-center">
+                  <div class="col">
+
+                    <div class="row">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Cantidad</mat-label>
+                        <input matInput type="number" formControlName="cantidad">
+                        <mat-error>
+                          {{ productoError('cantidad') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field appearance="fill" *ngIf="unidades.length > 0">
+                        <mat-label>Unidades</mat-label>
+                        <mat-select formControlName="unidades">
+                          <mat-option *ngFor="let unidad of unidades" [value]="unidad.valores">
+                            {{ unidad.valores }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          {{ productoError('unidades') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput type="text" formControlName="descripcion">
+                        <mat-error>
+                          {{ productoError('descripcion') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field appearance="fill" *ngIf="clientes.length > 0">
+                        <mat-label>Cliente</mat-label>
+                        <mat-select formControlName="cliente">
+                          <mat-option *ngFor="let cliente of clientes" [value]="cliente">
+                            {{ cliente }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          {{ productoError('cliente') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field appearance="fill" *ngIf="proyectos.length > 0">
+                        <mat-label>Proyecto</mat-label>
+                        <mat-select formControlName="proyecto">
+                          <mat-option *ngFor="let proyecto of proyectos" [value]="proyecto">
+                            {{ proyecto }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          {{ productoError('proyecto') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                      <mat-form-field appearance="fill" *ngIf="segmentos.length > 0">
+                        <mat-label>Segmento</mat-label>
+                        <mat-select formControlName="segmento">
+                          <mat-option *ngFor="let segmento of segmentos" [value]="segmento.segmento">
+                            {{ segmento.segmento}} - {{segmento.nombre }}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error>
+                          {{ productoError('segmento') }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row justify-content-center mt-2">
+                  <div class="col-6">
+                    <div class="row">
+                      <button type="submit" mat-raised-button color="primary">Agregar</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="col-6" *ngIf="productos.length > 0">
+      <app-lista-productos [productos]="productos" (eliminarProducto)="eliminarProducto($event)"></app-lista-productos>
+    </div>
+  </div>
+
+  <mat-divider class="mt-5 mb-5 shadow"></mat-divider>
+
+  <div class="row m-2 justify-content-center">
+    <div class="col-8">
+      <mat-checkbox [(ngModel)]="refVe" color="primary" labelPosition="after">
+        Refacción Vehícular
+      </mat-checkbox>
+    </div>
+  </div>
+
+  <form [formGroup]="compraForm" (ngSubmit)="generaCompra()">
+    <div class="row m-2 justify-content-center">
+      <div class="col-8">
+        <div *ngIf="refVe" class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Placa Vehícular</mat-label>
+            <input matInput
+              type="text"
+              formControlName="placa"
+            >
+            <mat-error>{{ compraError('placa') }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha deseable de entrega</mat-label>
+            <input matInput [matDatepicker]="picker"
+              [min]="fechaMin"
+              [max]="fechaMax"
+              readonly
+              formControlName="fechaEntrega"
+            >
+            <mat-error>{{ compraError('fechaEntrega') }}</mat-error>
+            <mat-hint>DD/MM/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre de quien recibe</mat-label>
+            <input matInput
+              type="text"
+              formControlName="nombreRecibe"
+            >
+            <mat-error>{{ compraError('nombreRecibe') }}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field appearance="fill">
+            <mat-label>Observaciones</mat-label>
+            <textarea
+              rows="2"
+              matInput
+              cdkTextareaAutosize="false"
+              formControlName="observaciones"
+            ></textarea>
+            <mat-error>{{ compraError('observaciones') }}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="col-4 align-self-end">
+        <div class="row mb-4">
+          <button mat-raised-button color="primary">Eviar solicitud</button>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="row mb-3 justify-content-center">
+      <div class="col-6">
+        <div class="row">
+          <button [disabled]="compraForm.pending" type="submit" mat-raised-button color="primary">{{ editar? 'Actualizar solicitud': 'Enviar solicitud' }}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>

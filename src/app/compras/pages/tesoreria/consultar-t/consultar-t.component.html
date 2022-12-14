@@ -1,0 +1,42 @@
+<div class="mt-3 mb-3 mat-expansion-panel">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <h1 class="text-center m-2">Tesorería</h1>
+      <h3 class="text-center m-2">Consultar</h3>
+    </div>
+  </div>
+
+  <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected" dynamicHeight="true">
+    <mat-tab *ngFor="let tab of tabs" [label]="tab.detalle">
+      <div class="container-fluid">
+        <div class="row p-4">
+          <div class="col-12" *ngIf="solicitudesGenerales.length > 0">
+            <app-data-table *ngIf="tab.detalle === 'Solicitudes'" (detalle)="abrirDetalle($event)" [solicitudGeneral]="solicitudesGenerales" tipo="compra"></app-data-table>
+          </div>
+
+          <div class="col-12" *ngIf="tab.detalle !== 'Solicitudes'">
+            <div class="row justify-content-center mb-3">
+              <div class="col-6">
+                <div class="row justify-content-center">
+                  <div class="col-2">
+                    <button matTooltip="Cerrar detalle"
+                            (click)="cerrarDetalle([tab.detalle, tab.tipo])"
+                            mat-mini-fab
+                            color="warn"
+                    >
+                      <mat-icon>closed</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

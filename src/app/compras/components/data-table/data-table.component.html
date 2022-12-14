@@ -1,0 +1,55 @@
+<div class="table-responsive">
+  <table class="table table-striped align-middle" #dTable>
+    <thead>
+      <tr>
+        <th>Opciones</th>
+        <th>Id</th>
+        <th>Nombre Empleado</th>
+        <th>Dilación</th>
+        <th>Tipo Solicitud</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+        <th>Empresa</th>
+        <th>Etapa</th>
+        <th>Responsable</th>
+        <th>Proveedor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let solicitud of solicitudGeneral">
+        <td>
+              <button [matTooltip]="'Detalle solicitud:' + solicitud.idsolicitud"
+                      matTooltipPosition="after"
+                      mat-icon-button color="primary"
+                      id="linea"
+                      (click)="detalles([solicitud.idsolicitud, solicitud.s_tiposolicitud])"
+                      >
+                <mat-icon>fact_check</mat-icon>
+              </button>
+              <button *ngIf="tipo === 'solicitud' && solicitud.m_montosolicitud === null"
+                      [matTooltip]="'Editar solicitud'"
+                      matTooltipPosition="after"
+                      mat-icon-button color="accent" id="linea"
+                      [routerLink]="['/compras/solicitudes/compras',solicitud.idsolicitud,solicitud.s_tiposolicitud]"><mat-icon>edit</mat-icon></button>
+                      <!-- (click)="edita([solicitud.idsolicitud, solicitud.s_tiposolicitud])" -->
+              <button *ngIf="tipo === 'solicitud'"
+                      matTooltip="Eliminar solicitud"
+                      matTooltipPosition="after"
+                      mat-icon-button color="warn" id="linea"
+                      (click)="eliminar(solicitud.idsolicitud)"><mat-icon>delete</mat-icon></button>
+        </td>
+        <td>{{ solicitud.idsolicitud }}</td>
+        <td>{{ solicitud.s_nombre }}</td>
+        <td>{{ solicitud.dilacion }}</td>
+        <td>{{ solicitud.s_tiposolicitud }}</td>
+        <td>{{ solicitud.m_montosolicitud }}</td>
+        <td>{{ solicitud.d_fecharequerimiento }}</td>
+        <td>{{ solicitud.s_empresa }}</td>
+        <td>{{ solicitud.Etapa }}</td>
+        <td>{{ solicitud.s_area }}</td>
+        <td>{{ solicitud.s_Proveedor }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

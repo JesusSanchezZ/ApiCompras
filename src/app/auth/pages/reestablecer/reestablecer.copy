@@ -1,0 +1,212 @@
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AlertaComponent } from '../../components/alerta/alerta.component';
+import { CondPassComponent } from '../../components/cond-pass/cond-pass.component';
+import { UsuarioPet } from '../../interfaces/usuarioPet.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidatorService } from '../../services/validator.service';
+
+@Component({
+  selector: 'app-reestablecer',
+  templateUrl: './reestablecer.component.html',
+  styleUrls: ['../login/login.component.scss']
+})
+export class ReestablecerComponent implements OnInit {
+  restForm: FormGroup = this.fb.group({
+    empleado: [''],
+    contrAnterior: ['', Validators.required],
+    contrNueva: ['', [Validators.required,
+                      Validators.minLength(8),
+                      this.validator.contenerMayMin,
+                      this.validator.contenerNumeros,
+                      this.validator.contenerEspeciales ]],
+    repContrNueva: ['', Validators.required]
+  },{
+    validators: [ this.validator.camposIguales('contrNueva','repContrNueva'),
+                  this.validator.camposIguales('contrAnterior','contrNueva')]
+  });
+
+  get passAntErrorMsj(): string {
+    const error = this.restForm.get('contrAnterior')?.errors;
+
+    if(error?.['required']){
+      return 'Este campo es requerido';
+    }
+
+    return '';
+  }
+
+  get passNuErrorMsj(): string {
+    const error = this.restForm.get('contrNueva')?.errors;
+
+    if(error?.['required']){
+      return 'Este campo es requerido';
+    } else if( error?.['minlength']){
+      return 'Debe de contener al menos 8 caracteres';
+    } else if( error?.['mayMin'] ){
+      return 'Faltan mayusculas y minusculas';
+    } else if( error?.['numeros']){
+      return 'Debe de contener números';
+    } else if( error?.['espec']){
+      return 'Debe de contener caracteres especiales';
+    } else if( error?.['antNuev']){
+      return 'No debe de ser igual a la anterior'
+    }
+
+    return '';
+  }
+
+  get rePassNuErrorMsj(): string {
+    const error = this.restForm.get('repContrNueva')?.errors;
+
+    if(error?.['required']){
+      return 'Este campo es requerido';
+    } else if( error?.['noIguales']){
+      return 'Las contraseñas no coinciden';
+    }
+
+    return '';
+  }
+
+  usuario: UsuarioPet = {
+    s_claveEmpleado: '',
+    s_psw: '',
+    s_passwordAntigua: '',
+    s_passwordNueva: '',
+    s_rnew_psw: ''
+  }
+
+  ctrPassA: string = '';
+  ctrPassN: string = '';
+  ctrPassRN: string = '';
+  msgPassA: string = '';
+  msgPassN: string = '';
+  msgPassRN: string = '';
+
+  private regMm = /^(?=.*?[A-Z])(?=.*?[a-z])/;
+  private regNum = /^(?=.*?[0-9])/;
+  private regCE = /^(?=.*?[!"#$%&/\(\)<>:;-?¿+¡.,*])/;
+
+  constructor(
+    private _snack: MatSnackBar,
+    private _router: Router,
+    private fb: FormBuilder,
+    private validator: ValidatorService
+  ) { }
+
+  ngOnInit(): void {
+    this._snack.openFromComponent(CondPassComponent,{
+      horizontalPosition: 'start',
+      verticalPosition: 'bottom'
+    });
+  }
+
+  reestablecer(): void {
+    this.ctrPassA = '';
+    this.ctrPassN = '';
+    this.ctrPassRN = '';
+
+    console.log(this.restForm.get('contrNueva')?.errors);
+    console.log(this.restForm.errors);
+
+    if( !this.usuario.s_passwordAntigua || !this.usuario.s_passwordNueva || !this.usuario.s_rnew_psw ){
+      if(!this.usuario.s_passwordAntigua){
+        this.ctrPassA = 'is-invalid';
+        this.msgPassA = 'Ingresa tu contraseña actual';
+      }
+      if(!this.usuario.s_passwordNueva){
+        this.ctrPassN = 'is-invalid';
+        this.msgPassN = 'Ingresa una nueva contraseña';
+      }
+      if(!this.usuario.s_rnew_psw){
+        this.ctrPassRN = 'is-invalid';
+        this.msgPassRN = 'Repite tu contraseña';
+      }
+
+      return;
+    }
+    if( this.usuario.s_passwordNueva.length < 8 ){
+      this.ctrPassN = 'is-invalid';
+      this.llamarAlerta('La contraseña debe de tener al menos 8 caracteres','rojoT');
+
+      return;
+    }
+    if( !this.regMm.test(this.usuario.s_passwordNueva) ){
+      this.ctrPassN = 'is-invalid';
+      this.llamarAlerta('La contraseña debe de contener una mayuscula o ninúscula','rojoT');
+
+      return;
+    }
+    if( !this.regNum.test(this.usuario.s_passwordNueva) ){
+      this.ctrPassN = 'is-invalid';
+      this.llamarAlerta('La contraseña al menos debe de contener un número','rojoT');
+
+      return;
+    }
+    if( !this.regCE.test(this.usuario.s_passwordNueva) ){
+      this.ctrPassN = 'is-invalid';
+      this.llamarAlerta('La contraseña debe de contener caracteres especiales','rojoT');
+
+      return;
+    }
+    if(this.usuario.s_passwordNueva != this.usuario.s_rnew_psw){
+      this.ctrPassN = 'is-invalid';
+      this.ctrPassRN = 'is-invalid';
+      this.msgPassN = '';
+      this.msgPassRN = '';
+      this.llamarAlerta('Las contraseñas no coinciden','rojoT');
+
+      return;
+    }
+    if( this.usuario.s_passwordAntigua === this.usuario.s_passwordNueva ){
+      this.llamarAlerta('La contraseña nueva debe de ser distinta de la anterior','rojoT');
+
+      return;
+    }
+    console.log(this.usuario);
+    this._snack.dismiss();
+    this._snack.openFromComponent(AlertaComponent,{
+      data: ['Se actualizó la contraseña','verdeT'],
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 3000,
+    });
+    this._router.navigate(['/login/iniciar']);
+
+  }
+
+  llamarAlerta(msj: string, clase: string): void {
+    this._snack.openFromComponent(AlertaComponent,{
+      data: [msj, clase],
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 3000
+    }).afterDismissed().subscribe(() => {
+      this._snack.openFromComponent(CondPassComponent,{
+        horizontalPosition: 'start',
+        verticalPosition: 'bottom'
+      })
+    });
+  }
+
+  limpiar(comp: number): void {
+    console.log('limpiar');
+    if( comp == 1){
+      this.ctrPassA = '';
+      this.msgPassA = '';
+    }
+    if( comp == 2) {
+      this.ctrPassN = '';
+      this.msgPassN = '';
+    }
+    if(comp == 3) {
+      this.ctrPassRN = '';
+      this.ctrPassRN = '';
+    }
+  }
+
+}
+

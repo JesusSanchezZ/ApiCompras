@@ -1,0 +1,182 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div class="row mt-2" *ngIf="detalleSolicitud.length > 0 && detalleSolicitud[0].n_Paso === '1'">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <h2>Autorización de la solicitud</h2>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <form [formGroup]="autorizaUnoForm">
+          <div class="row justify-content-center mt-2">
+            <div class="col">
+              <div class="row">
+                <mat-form-field appearance="fill">
+                  <mat-label>Estatus</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option value="Autoriza">Autorizar Solicitud</mat-option>
+                    <mat-option value="Rechaza">Rechazar Solicitud</mat-option>
+                  </mat-select>
+                  <mat-error>{{ statusError('status') }}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row" *ngIf="empresas.length > 0">
+                <mat-form-field>
+                  <mat-label>Empresas</mat-label>
+                  <mat-select formControlName="empresa">
+                    <mat-option *ngFor="let empresa of empresas"
+                      [value]="empresa.id"
+                    >
+                      {{ empresa.valores }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>{{ statusError('empresa') }}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row" *ngIf="motivos.length > 0">
+                <mat-form-field>
+                  <mat-label>Motivo de rechazo</mat-label>
+                  <mat-select formControlName="motivo">
+                    <mat-option *ngFor="let motivo of motivos"
+                      [value]="motivo.id"
+                    >
+                      {{ motivo.valores }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>{{ statusError('motivo') }}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field appearance="fill">
+                  <mat-label>Observaciones</mat-label>
+                  <textarea formControlName="observaciones" matInput cdkTextareaAutosize="false" rows="3"></textarea>
+                  <mat-error>{{ statusError('observaciones') }}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-8 mt-2">
+              <div class="row">
+                <button mat-raised-button
+                  color="accent"
+                  type="submit"
+                  (click)="autoriza1()"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          </div>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="row justify-content-center mt-2">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title><h2>Histórico solicitud</h2></mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="row justify-content-center" *ngIf="historicos.length > 0">
+            <div class="col">
+              <div *ngFor="let historico of historicos"
+                class="row mb-1">
+                <app-detalle-historico [historico]="historico"></app-detalle-historico>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="row justify-content-center" *ngIf="detalleSolicitud.length > 0">
+      <div class="col">
+        <div class="row mt-2">
+          <mat-accordion>
+            <mat-expansion-panel expanded="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h2 class="text-center m-2">Productos solicitados</h2>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="row justify-content-center">
+                <div class="col mb-3">
+                  <div class="row">
+                    <app-detalle-compras [productos]="detalleSolicitud[0].Productos"></app-detalle-compras>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div class="row mt-2">
+          <mat-accordion>
+            <mat-expansion-panel expanded="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h2 class="text-center m-2">Información de la solicitud</h2>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div class="row justify-content-center">
+                <div class="col">
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Id</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].idsolicitud">
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Tipo</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_tiposolicitud">
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Fecha de requerimiento</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Clave de empleado</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_claveEmpleado">
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Etapa</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].Etapa">
+                    </mat-form-field>
+                  </div>
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Nombre de quien recibe</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_NombreRecibe">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <mat-form-field>
+                      <mat-label>Observaciones</mat-label>
+                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_Observaciones">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

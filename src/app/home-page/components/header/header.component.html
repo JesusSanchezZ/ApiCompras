@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="sticky-top">
+  <button mat-icon-button
+    [matTooltip]="menuState?'Contraer menú': 'Expandir menú'"
+    (click)="ocultaMenu()"
+  >
+    <mat-icon >{{ menuState? 'menu_open' : 'menu'}}</mat-icon>
+  </button>
+  <span>Compras</span>
+  <span class="spacer"></span>
+  <small>{{ nombre | titlecase }}</small>
+  <button mat-icon-button>
+    <mat-icon>favorit</mat-icon>
+  </button>
+  <button mat-icon-button
+    matTooltip="Salir"
+    (click)="salir()"
+  >
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>

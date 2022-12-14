@@ -1,0 +1,93 @@
+<div class="row justify-content-center m-3">
+  <div class="col-6">
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <button mat-mini-fab matTooltip="Cerrar detalle" matTooltipPosition="after" color="warn"
+            (click)="cerrar(solicitud)"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row m-3 justify-content-center">
+  <div class="col">
+    <h2 class="text-center">Histórico solicitud</h2>
+
+    <div class="row justify-content-center" *ngIf="historicoEtapasSolicitud.length >0 ">
+      <div class="col">
+        <div *ngFor="let historico of historicoEtapasSolicitud" class="row mb-1">
+          <app-detalle-historico [historico]="historico"></app-detalle-historico>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="abierto">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h2 class="text-center m-1">Información de la solicitud</h2>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="detalleSolicitud !== null" class="row justify-content-center">
+          <div class="col">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Id</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.idsolicitud">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Tipo</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.s_tiposolicitud">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Monto comprobado</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.d_MontoComprobado">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Nombre de quien recibe</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.s_NombreRecibe">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Clave empleado</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.s_claveEmpleado">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Etapa</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.idEtapa">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Fecha requerimiento</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field>
+                <mat-label>Observaciones</mat-label>
+                <input matInput type="text" readonly [value]="detalleSolicitud.s_Observaciones">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>

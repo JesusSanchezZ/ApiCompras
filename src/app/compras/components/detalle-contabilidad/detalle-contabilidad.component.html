@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div class="row mt-2"></div>
+
+    <div class="row justify-content-center mt-2">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title><h2>Histórico Solicitud</h2></mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="row justify-content-center" *ngIf="historicos.length > 0">
+            <div class="col">
+              <div *ngFor="let historico of historicos" class="row mb-1">
+                <app-detalle-historico [historico]="historico"></app-detalle-historico>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="row justify-content-center mt-2">
+      <mat-accordion>
+        <mat-expansion-panel expanded="true">
+          <mat-expansion-panel-header><h2>Ejemplo Autocomplete</h2></mat-expansion-panel-header>
+          <div class="row justify-content-center">
+            <div *ngIf="productos.length > 0">
+              <form [formGroup]="formBusqueda" (ngSubmit)="enviarFormulario()">
+                <div class="row">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Busqueda</mat-label>
+                    <input type="text"
+                      placeholder="Criterio de busqueda"
+                      aria-label="busqueda"
+                      matInput
+                      formControlName="busqueda"
+                      [matAutocomplete]="auto"
+                    >
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.s_NombreProducto">
+                        {{ option.s_NombreProducto }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+
+                <div class="row">
+                  <button mat-raised-button color="primary" type="submit">Ver</button>
+                </div>
+              </form>
+          </div>
+        </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>

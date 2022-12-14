@@ -1,0 +1,131 @@
+<div class="row mt-3">
+  <div class="col">
+    <app-datos-generales></app-datos-generales>
+  </div>
+</div>
+
+<div class="mt-3 mat-expansion-panel">
+  <h1 class="text-center m-2">Solicitudes</h1>
+  <h3 class="text-center m-1">Otros Gastos</h3>
+  <h3 class="text-center m-1">Nueva Solicitud (Otros)</h3>
+
+  <form [formGroup]="otrosFormulario" (submit)="enviarSolicitud()">
+    <div class="row m-4">
+      <div class="col">
+        <div class="row">
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Monto Solicitado</mat-label>
+              <span matPrefix>$ &nbsp;</span>
+              <input matInput type="number" formControlName="monto">
+              <mat-error>{{ erroresFormulario('monto') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Descripción</mat-label>
+              <input matInput type="text" formControlName="descripcion">
+              <mat-error>{{ erroresFormulario('descripcion') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Fecha en que se requiere</mat-label>
+              <input matInput
+                    [matDatepicker]="picker"
+                    [min]="fechaMin" [max]="fechaMax"
+                    readonly #date
+                    formControlName="fecha">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Segmentos</mat-label>
+              <input matInput type="number" formControlName="numSegmentos">
+              <mat-error>{{ erroresFormulario('numSegmentos') }}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-6" formArrayName="segmentos">
+              <div class="row" *ngIf="segmentos.length > 0">
+                <mat-form-field appearance="fill" *ngFor="let segmento of segmentos.controls; let i=index">
+                  <mat-label>Segmento {{i + 1}}</mat-label>
+                  <mat-select id="segmento{{i}}" [formControlName]="i" *ngIf="segm.length > 0">
+                    <mat-option *ngFor="let seg of segm" [value]="seg">
+                      {{ segm }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-6" formArrayName="porcentajeSeg">
+              <div class="row" *ngIf="porcentajeSeg.length > 0">
+                <mat-form-field appearance="fill" *ngFor="let porc of porcentajeSeg.controls; let i=index">
+                  <mat-label>Porcentaje {{i + 1}}</mat-label>
+                  <input matInput type="number" id="porcentaje{{i}}" [formControlName]="i">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Beneficiario</mat-label>
+              <input matInput type="text" formControlName="beneficiario">
+              <mat-error>{{ erroresFormulario('beneficiario') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" *ngIf="medioPago.length > 0">
+              <mat-label>Medio de pago</mat-label>
+              <mat-select formControlName="medioPago">
+                <mat-option *ngFor="let pago of medioPago" [value]="pago.s_descripcion">
+                  {{ pago.s_descripcion }}
+                </mat-option>
+              </mat-select>
+              <mat-error>{{ erroresFormulario('medioPago') }}</mat-error>
+            </mat-form-field>
+
+            <div class="row" *ngIf="datosBancarios">
+              <mat-form-field appearance="fill">
+                <mat-label>Banco para deposito</mat-label>
+                <input type="text" matInput formControlName="banco">
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Número de cuenta para deposito</mat-label>
+                <input type="text" matInput formControlName="cuenta">
+              </mat-form-field>
+            </div>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Observaciones</mat-label>
+              <textarea matInput cols="30" rows="2"
+                        [cdkTextareaAutosize]="false"
+                        formControlName="observaciones">
+              </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 mb-3">
+        <div class="row">
+          <button mat-raised-button
+                  type="submit"
+                  color="primary"
+                  [disabled]="otrosFormulario.pending"
+          >
+            Enviar solicitud
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<pre>{{ otrosFormulario.value | json }}</pre>
+<pre>{{ otrosFormulario.valid }}</pre>
