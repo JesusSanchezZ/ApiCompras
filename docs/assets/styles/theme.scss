@@ -1,0 +1,133 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// gama de colores
+$my-primary-color :(
+  50 : #e2e6ec,
+    100 : #b7c2cf,
+    200 : #8799af,
+    300 : #57708e,
+    400 : #335176,
+    500 : #0f325e,
+    600 : #0d2d56,
+    700 : #0b264c,
+    800 : #081f42,
+    900 : #041331,
+    A100 : #6991ff,
+    A200 : #366bff,
+    A400 : #0346ff,
+    A700 : #003ee9,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$my-accent-color:(
+  50 : #e4f6f3,
+  100 : #bbe8e0,
+  200 : #8ed8cc,
+  300 : #61c8b7,
+  400 : #3fbda7,
+  500 : #1db198,
+  600 : #1aaa90,
+  700 : #15a185,
+  800 : #11987b,
+  900 : #0a886a,
+  A100 : #b7ffec,
+  A200 : #84ffde,
+  A400 : #51ffd0,
+  A700 : #37ffc9,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #000000,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+$my-warn-color:(
+  50 : #fbe9e9,
+  100 : #f6c7c7,
+  200 : #f0a2a2,
+  300 : #ea7c7c,
+  400 : #e66060,
+  500 : #e14444,
+  600 : #dd3e3e,
+  700 : #d93535,
+  800 : #d52d2d,
+  900 : #cd1f1f,
+  A100 : #ffffff,
+  A200 : #ffd1d1,
+  A400 : #ff9e9e,
+  A700 : #ff8585,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #000000,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #000000,
+  )
+);
+
+// definición de paleta
+$my-primary-color: mat.define-palette($my-primary-color);
+$my-accent-color: mat.define-palette($my-accent-color,600);
+$my-warn-color: mat.define-palette($my-warn-color,500, 900);
+
+// definición del tema
+$my-theme: mat.define-light-theme((
+  color: (
+    primary: $my-primary-color,
+    accent: $my-accent-color,
+    warn: $my-warn-color,
+  )
+));
+
+// $my-primary-color1: mat.define-palette($my-primary-color);
+// $my-accent-color1: mat.define-palette($my-accent-color,600);
+// $my-warn-color1: mat.define-palette($my-warn-color,600);
+
+// // definición del tema
+// $my-snack-theme: mat.define-light-theme((
+//   color: (
+//     primary: $my-primary-color,
+//     accent: $my-accent-color,
+//     warn: $my-warn-color,
+//   )
+// ));
+// aplicando el tema globalmente
+@include mat.all-component-themes($my-theme);
+//@include mat.snack-bar-theme($my-snack-theme);
