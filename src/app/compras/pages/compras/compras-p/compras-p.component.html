@@ -6,14 +6,20 @@
   </div>
 
   <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected" dynamicHeight="true">
-    <mat-tab *ngFor="let tab of tabs" [label]="tab.detalle">
+    <mat-tab *ngFor="let tab of tabs">
+      <ng-template mat-tab-label>
+        {{tab.detalle}}
+        <button *ngIf="tab.detalle !== 'Solicitudes'" matTooltip="Cerrar detalle" (click)="cerrarDetalle([tab.detalle, tab.tipo])" mat-icon-button color="warn">
+          <mat-icon>closed</mat-icon>
+        </button>
+      </ng-template>
       <div class="container-fluid">
         <div class="row p-4">
           <div class="col-12" *ngIf="solicitudes.length > 0">
             <app-data-table *ngIf="tab.detalle === 'Solicitudes'" (detalle)="abrirDetalle($event)" [solicitudGeneral]="solicitudes" tipo="compra"></app-data-table>
           </div>
           <div class="col-12" *ngIf="tab.detalle !== 'Solicitudes'">
-            <div class="row justify-content-center mb-3">
+            <!-- <div class="row justify-content-center mb-3">
               <div class="col-6">
                 <div class="row justify-content-center">
                   <div class="col-2">
@@ -23,7 +29,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="row">
               <app-detalle-compra [solicitud]="tab.detalle" [tipo]="tab.tipo" (actualizaGen)="solicitudGeneral()"></app-detalle-compra>
             </div>

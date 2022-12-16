@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 import * as moment from 'moment';
 import { map, Observable, startWith } from 'rxjs';
@@ -9,6 +8,12 @@ import { Colonia, Estado, Municipio, Resp, Usuario } from 'src/app/compras/inter
 
 import { ComprasService } from 'src/app/compras/services/compras.service';
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
+
+interface Segmento {
+  segmento: string;
+  nombre:   string;
+  cliente:  string;
+}
 
 @Component({
   selector: 'app-vehiculo',
@@ -86,7 +91,8 @@ export class VehiculoComponent implements OnInit {
   coloniasDestino: Colonia[] = [];
   usuarios: Usuario[] = [];
   usuarioBusq: Usuario[] = [];
-  segmentosMc: string[] = [];
+  segmentosMc: Segmento[] = [];
+  clientes: string[] = [];
 
   constructor(private compras: ComprasService,private fb: FormBuilder, private solicitudes: SolicitudesService ) { }
 
@@ -105,8 +111,13 @@ export class VehiculoComponent implements OnInit {
 
     this.solicitudes.segmentos()
         .subscribe(seg => {
-          seg.forEach(x => this.segmentosMc.push(x.segmento));
-          console.log(this.segmentosMc);
+          seg.forEach(x => this.segmentosMc.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
+          this.segmentosMc.forEach(x => {
+            if(!this.clientes.includes(x.cliente)){
+              this.clientes.push(x.cliente);
+            }
+          });
+          console.log(this.clientes);
         });
 
     this.usuarioFiltro = this.solicitud.controls['solicitante'].valueChanges

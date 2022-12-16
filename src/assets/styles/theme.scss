@@ -167,23 +167,63 @@ $my-theme: mat.define-light-theme((
 //@include mat.snack-bar-theme($my-snack-theme);
 
 .warn-1 {
-  background-color: #cd1f1f;
-  color: #ffffff;
+  background-color: map-get($my-warn-color, 900);
+  color: map-get($my-warn-color, contrast, 900);
+}
+
+.warn-2 {
+  background-color: map-get($my-warn-color, 300);
+  color: map-get($my-warn-color, contrast, 300);
+}
+
+.accent-300 {
+  background-color: map-get($my-accent-color, 300);
+  color: map-get($my-accent-color, contrast ,300) /*#000000;*/
+}
+
+.accent-200 {
+  background-color: map-get($my-accent-color, 200);
+  color: map-get($my-accent-color, contrast, 200);
+}
+
+.accent-800 {
+  background-color: map-get($my-accent-color, 800);
+  color: map-get($my-accent-color, contrast, 800);
+}
+
+.accent-A700 {
+  background-color: map-get($my-accent-color, A700);
+  color: map-get($my-accent-color, contrast, A700);
 }
 
 .primary-200 {
-  background-color: #8097af;
-  color: #000000;
+  background-color: map-get($my-primary-color, 200 );
+  color: map-get($my-primary-color, contrast, 200);
 
+}
+
+.primary-300 {
+  background-color: map-get($my-primary-color, 300);
+  color: map-get($my-primary-color, contrast, 300);
 }
 
 .primary-400 {
-  background-color: #264d77;
-  color: #ffffff;
+  background-color: map-get($md-mcgpalette0, 400);
+  color: map-get($md-mcgpalette0, contrast, 400);
+}
+
+.mc {
+  background-color: map-get($md-mcgpalette0, 500);
+  color: map-get($md-mcgpalette0,contrast, 500);
 }
 
 .primary-A100 {
-  background-color: #6a8cff;
+  background-color: map-get($md-mcgpalette0, A100);
+  color: map-get($md-mcgpalette0, contrast, A100);
+}
+
+.ft {
+  background-color: #e6eaee;
   color: #000000;
 }
 
@@ -201,60 +241,60 @@ $my-theme: mat.define-light-theme((
     border-radius: 50%;
     background: #0f325e;
     animation: lds-grid 1.2s linear infinite;
-  }
 
-  div:nth-child(1) {
-    top: 8px;
-    left: 8px;
-    animation-delay: 0s;
-  }
+    &:nth-child(1){
+      top: 8px;
+      left: 8px;
+      animation-delay: 0s;
+    }
 
-  div:nth-child(2) {
-    top: 8px;
-    left: 32px;
-    animation-delay: -0.4s;
-  }
+    &:nth-child(2){
+      top: 8px;
+      left: 32px;
+      animation-delay: -0.4s;
+    }
 
-  div:nth-child(3){
-    top: 8px;
-    left: 56px;
-    animation-delay: -0.8s;
-  }
+    &:nth-child(3){
+      top: 8px;
+      left: 56px;
+      animation-delay: -0.8s;
+    }
 
-  div:nth-child(4){
-    top: 32px;
-    left: 8px;
-    animation-delay: -0.4s;
-  }
+    &:nth-child(4){
+      top: 32px;
+      left: 8px;
+      animation-delay: -0.4s;
+    }
 
-  div:nth-child(5){
-    top: 32px;
-    left: 32px;
-    animation-delay: -0.8s;
-  }
+    &:nth-child(5){
+      top: 32px;
+      left: 32px;
+      animation-delay: -0.8s;
+    }
 
-  div:nth-child(6){
-    top: 32px;
-    left: 56px;
-    animation-delay: -1.2s;
-  }
+    &:nth-child(6){
+      top: 32px;
+      left: 56px;
+      animation-delay: -1.2s;
+    }
 
-  div:nth-child(7){
-    top: 56px;
-    left: 8px;
-    animation-delay: -0.8s;
-  }
+    &:nth-child(7){
+      top: 56px;
+      left: 8px;
+      animation-delay: -0.8s;
+    }
 
-  div:nth-child(8){
-    top: 56px;
-    left: 32px;
-    animation-delay: -1.2s;
-  }
+    &:nth-child(8){
+      top: 56px;
+      left: 32px;
+      animation-delay: -1.2s;
+    }
 
-  div:nth-child(9){
-    top: 56px;
-    left: 56px;
-    animation-delay: -1.6s;
+    &:nth-child(9){
+      top: 56px;
+      left: 56px;
+      animation-delay: -1.6s;
+    }
   }
 }
 

@@ -78,7 +78,7 @@ export class SolicitudesService {
     this.solicitud.tipoSolicitud = solicitud[1].trim();
     this.solicitud.idsolicitud = solicitud[0].trim();
 
-    // console.log( solicitud);
+    console.log( solicitud);
 
     return this.http.post<DetalleSolicitud[]>(`${this.baseUrl}/api/Solicitudes`, this.solicitud);
   }

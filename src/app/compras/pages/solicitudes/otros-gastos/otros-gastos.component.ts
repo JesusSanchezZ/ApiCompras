@@ -10,6 +10,12 @@ import { Empleado, OtrosGastos } from 'src/app/compras/interfaces/solicitudes/ti
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
 import { Router } from '@angular/router';
 
+interface Segmento {
+  segmento: string;
+  nombre:   string;
+  cliente: string;
+}
+
 @Component({
   selector: 'app-otros-gastos',
   templateUrl: './otros-gastos.component.html',
@@ -46,8 +52,9 @@ export class OtrosGastosComponent implements OnInit {
   //beneficiario!: string;
   datosBancarios = false;
   medioPago: MedioPago[] = [];
-  segm: string[] = [];
+  segm: Segmento[] = [];
   claveEmpleado = '';
+  clientes: string[] = [];
 
   constructor(private fb: FormBuilder, private solicitudes: SolicitudesService,
               private router: Router) { }
@@ -67,7 +74,11 @@ export class OtrosGastosComponent implements OnInit {
 
     this.solicitudes.segmentos()
         .subscribe( seg => {
-          seg.forEach( s => this.segm.push(s.segmento));
+          seg.forEach( s => this.segm.push({segmento: s.segmento, nombre: s.nombre, cliente: s.cliente}));
+          this.segm.forEach(x => {
+            if(!this.clientes.includes(x.cliente))
+              this.clientes.push(x.cliente);
+          });
         });
 
     this.otrosFormulario.get('medioPago')?.valueChanges

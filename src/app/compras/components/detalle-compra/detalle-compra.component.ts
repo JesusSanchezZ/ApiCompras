@@ -45,7 +45,7 @@ export class DetalleCompraComponent implements OnInit {
     this.compras.detalleSolicitud(this.solicitud, this.tipo)
         .subscribe( detalle => {
           this.detalleSolicitud = detalle;
-          // console.log(detalle);
+          //console.log(!!this.detalleSolicitud[0].Productos);
         });
 
     this.autorizaUnoForm.get('status')?.valueChanges

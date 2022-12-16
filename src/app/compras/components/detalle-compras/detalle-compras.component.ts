@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild } from '@angular/core';
+
 import { Producto } from '../../interfaces/solicitudes/detalleCompra/tipoSolicitud.interface';
+
+declare const $:any;
 
 @Component({
   selector: 'app-detalle-compras',
@@ -7,42 +10,26 @@ import { Producto } from '../../interfaces/solicitudes/detalleCompra/tipoSolicit
   styles: [
   ]
 })
-export class DetalleComprasComponent implements OnInit {
+export class DetalleComprasComponent implements AfterViewInit {
+
+  @ViewChild('dTable',{static: false}) dataTable: any;
 
   @Input() productos: Producto[] = [];
-  columns = [
-    {
-      columnDef: 'producto',
-      header: 'Producto',
-      cell:(element: Producto) => `${element.producto}`
-    },
-    {
-      columnDef: 'n_Cantidad',
-      header: 'Cantidad',
-      cell:(element: Producto) => `${element.n_Cantidad}`
-    },
-    {
-      columnDef: 's_Unidad',
-      header: 'Unidad',
-      cell:(element: Producto) => `${element.s_Unidad}`
-    },
-    {
-      columnDef: 's_ObservacionesProducto',
-      header: 'Observaciones',
-      cell:(element: Producto) => `${element.s_ObservacionesProducto}`
-    },
-    {
-      columnDef: 's_Segmento',
-      header: 'Segmento',
-      cell:(element: Producto) => `${element.s_Segmento}`
-    }
-  ];
 
-  ColumnasMostrar = this.columns.map( c => c.columnDef );
+  encabezadosColumnas: string[] = ['Producto','Cantidad','Unidades','Descripción','Segmento'];
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    $(this.dataTable.nativeElement).DataTable({
+      language: {
+        url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-MX.json'
+      },
+      info: false,
+      ordering: false,
+      paging: false,
+      searching: false
+    });
   }
 
 }

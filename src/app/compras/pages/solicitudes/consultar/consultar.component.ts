@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
+import { Component } from '@angular/core';
+
 import * as toastr from 'toastr';
 
 export interface Tabs {
@@ -13,7 +13,7 @@ export interface Tabs {
   styles: [
   ]
 })
-export class ConsultarComponent implements OnInit {
+export class ConsultarComponent {
   tabs:  Tabs[] = [
     {
       tipo: '',
@@ -28,18 +28,16 @@ export class ConsultarComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-
-  }
-
   detalles():void {
     this.detalle = true;
     this.selected = 1;
   }
 
   cerrar(solicitud: string[]):void {
-    this.tabs.splice(this.tabs.indexOf({ tipo: solicitud[1], detalle: solicitud[0]}),1);
-    this.selected = 0;
+    let indice = this.tabs.indexOf(this.tabs.filter(e => e.detalle === solicitud[0])[0]);
+
+    this.tabs.splice(indice,1);
+    this.selected = this.tabs.length - 1;
   }
 
   nuevoDetalle(solicitud: string[]): void {

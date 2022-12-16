@@ -51,9 +51,15 @@
                 <mat-form-field appearance="fill" *ngFor="let segmento of segmentos.controls; let i=index">
                   <mat-label>Segmento {{i + 1}}</mat-label>
                   <mat-select id="segmento{{i}}" [formControlName]="i" *ngIf="segm.length > 0">
-                    <mat-option *ngFor="let seg of segm" [value]="seg">
-                      {{ segm }}
-                    </mat-option>
+                    <ng-container *ngFor="let cliente of clientes">
+                      <mat-optgroup [label]="cliente">
+                       <ng-container *ngFor="let seg of segm">
+                        <mat-option [value]="seg.segmento" *ngIf="seg.cliente === cliente">
+                          {{ seg.segmento }} - {{ seg.nombre }}
+                        </mat-option>
+                       </ng-container>
+                      </mat-optgroup>
+                    </ng-container>
                   </mat-select>
                 </mat-form-field>
               </div>

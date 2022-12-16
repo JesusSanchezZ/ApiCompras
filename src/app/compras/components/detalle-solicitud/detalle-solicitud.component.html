@@ -15,76 +15,292 @@
 
 <div class="row m-3 justify-content-center">
   <div class="col">
-    <h2 class="text-center">Histórico solicitud</h2>
-
     <div class="row justify-content-center" *ngIf="historicoEtapasSolicitud.length >0 ">
       <div class="col">
-        <div *ngFor="let historico of historicoEtapasSolicitud" class="row mb-1">
-          <app-detalle-historico [historico]="historico"></app-detalle-historico>
-        </div>
+        <mat-accordion>
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h2>Histórico solicitud</h2>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngFor="let historico of historicoEtapasSolicitud" class="row m-1">
+              <app-detalle-historico [historico]="historico"></app-detalle-historico>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </div>
   <div class="col">
     <mat-accordion>
-      <mat-expansion-panel [expanded]="abierto">
+      <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h2 class="text-center m-1">Información de la solicitud</h2>
+            <h2>Información de la solicitud</h2>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div *ngIf="detalleSolicitud !== null" class="row justify-content-center">
-          <div class="col">
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Id</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.idsolicitud">
-              </mat-form-field>
+        <div *ngIf="detalleSolicitud !== null">
+          <div [ngSwitch]="detalleSolicitud.s_tiposolicitud">
+            <div *ngSwitchCase="'Otros Gastos'" class="row justify-content-center">
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Id</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.idsolicitud">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Clave de empleado</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_claveEmpleado">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Tipo</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_tiposolicitud">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Etapa</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.Etapa">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Monto de la solicitud</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.m_montosolicitud">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Monto comprobado</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.d_MontoComprobado">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Fecha del requerimiento</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.d_fecharequerimiento">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Beneficiario</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_nombre">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Medio de pago</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_mediopago">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Observaciones</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_Observaciones">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Empresa</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_empresa">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Dilación</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.dilacion">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Descripción</mat-label>
+                    <input matInput readonly type="text" [value]="detalleSolicitud.s_descripcion">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Tipo</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.s_tiposolicitud">
-              </mat-form-field>
+
+            <div *ngSwitchCase="'Vehiculo'" class="row justify-content-center">
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_nombre">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Tipo de Transporte</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_TipoTransporte">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Origen</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_origen">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Fecha de salida</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.dFechayHoraSalida">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Gasto</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.idTipoCosto">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Pasajeros extra</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_NumEmpleadosBeneficiados">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Tarjeta gasolina</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_TarjetaGasolina">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Destino</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_destino">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Fecha de regreso</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.dFechayHoraRegreso">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Descripcion</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_descripcion">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Monto comprobado</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.d_MontoComprobado">
-              </mat-form-field>
+
+            <div *ngSwitchCase="'Viaticos'" class="row justify-content-center">
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_nombre">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Etapa</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.Etapa">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Transporte</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_TipoTransporte">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Origen</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_origen">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Fecha de salida</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.dFechayHoraSalida">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Hospedaje</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_Hospedaje">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Alimentos</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_Alimentos">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Casetas</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_Casetas">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Transporte</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_otros">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Gasolina</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_Gasolina">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Otros</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_otros">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Número de taxis</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.n_taxi">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Destino</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_destino">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Fecha de regreso</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.dFechayHoraRegreso">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Motivo</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_MotivoViaje">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Monto</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.m_montosolicitud">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Medio de pago</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_mediopago">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Observaciones</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_Observaciones">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Nombre de quien recibe</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.s_NombreRecibe">
-              </mat-form-field>
+
+            <div *ngSwitchDefault class="row justify-content-center">
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Id</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.idsolicitud">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Tipo</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_tiposolicitud">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Monto comprobado</mat-label>
+                    <span matPrefix>$ &nbsp;</span>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.d_MontoComprobado">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Nombre de quien recibe</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_NombreRecibe">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="row">
+                  <mat-form-field>
+                    <mat-label>Clave empleado</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_claveEmpleado">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Etapa</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.idEtapa">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Fecha requerimiento</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Observaciones</mat-label>
+                    <input matInput type="text" readonly [value]="detalleSolicitud.s_Observaciones">
+                  </mat-form-field>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="col">
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Clave empleado</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.s_claveEmpleado">
-              </mat-form-field>
-            </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Etapa</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.idEtapa">
-              </mat-form-field>
-            </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Fecha requerimiento</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
-              </mat-form-field>
-            </div>
-            <div class="row">
-              <mat-form-field>
-                <mat-label>Observaciones</mat-label>
-                <input matInput type="text" readonly [value]="detalleSolicitud.s_Observaciones">
-              </mat-form-field>
-            </div>
+
           </div>
         </div>
       </mat-expansion-panel>

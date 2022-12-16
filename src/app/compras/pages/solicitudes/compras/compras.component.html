@@ -10,7 +10,7 @@
   <h1 class="text-center m-2">Solicitudes</h1>
   <h3 class="text-center m-1">Compras</h3>
   <h2 class="text-center" *ngIf="editar">Solicitud: {{ solicitudEditar[0].idsolicitud }}</h2>
-  <div class="row m-2">
+  <div class="row m-2 mt-4">
     <div class="col-6 ">
       <mat-accordion>
         <mat-expansion-panel (opened)="panelOpenState1 = true"
@@ -164,7 +164,8 @@
       </mat-accordion>
     </div>
     <div class="col-6" *ngIf="productos.length > 0">
-      <app-lista-productos [productos]="productos" (eliminarProducto)="eliminarProducto($event)"></app-lista-productos>
+      <!-- <app-lista-productos [productos]="productos" (eliminarProducto)="eliminarProducto($event)"></app-lista-productos> -->
+      <app-lista-productos-data-table [productos]="productos" (eliminarProducto)="eliminarProducto($event)"></app-lista-productos-data-table>
     </div>
   </div>
 

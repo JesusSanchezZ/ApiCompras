@@ -1,11 +1,18 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import * as moment from 'moment';
 
 import { Colonia, Estado, MedioPago, Municipio, Resp, Usuario } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
 
 import { ComprasService } from 'src/app/compras/services/compras.service';
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
+
+interface Segmento {
+  segmento: string;
+  nombre:   string;
+  cliente:  string;
+}
 
 @Component({
   selector: 'app-viaticos',
@@ -26,10 +33,10 @@ import { SolicitudesService } from 'src/app/compras/services/solicitudes.service
 })
 export class ViaticosComponent implements OnInit {
 
-  @HostListener('click',['$event'])
-  onClick = (e: any) => {
-    console.log(e.target);
-  }
+  // @HostListener('click',['$event'])
+  // onClick = (e: any) => {
+  //   console.log(e.target);
+  // }
 
   formViaticos: FormGroup = this.fb.group({
     gastoOperativo: [false],
@@ -103,8 +110,9 @@ export class ViaticosComponent implements OnInit {
   datosBancarios = false;
   transportePublico = false;
   transportePrivado = false;
-  segm: string[] = [];
+  segm: Segmento[] = [];
   emple: Usuario[] = [];
+  clientes: string[] = [];
 
   prueba: Colonia[] = [];
 
@@ -133,7 +141,13 @@ export class ViaticosComponent implements OnInit {
         .subscribe( usuarios => this.emple = usuarios);
 
     this.solicitudes.segmentos()
-        .subscribe(seg => seg.forEach(x => this.segm.push(x.segmento)));
+        .subscribe(seg => {
+          seg.forEach(x => this.segm.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
+          this.segm.forEach(x => {
+            if(!this.clientes.includes(x.cliente))
+              this.clientes.push(x.cliente);
+          });
+        });
 
     this.formViaticos.get('gastoOperativo')?.valueChanges
         .subscribe(v => {

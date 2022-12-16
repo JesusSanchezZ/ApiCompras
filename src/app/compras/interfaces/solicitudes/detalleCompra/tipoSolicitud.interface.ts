@@ -35,6 +35,25 @@ export interface TipoSolicitud {
   s_CuentaContableBeneficiario: string;
   s_claves_empleados:           string;
   s_nombres_empleados:          string;
+
+  // Campos para solicitud Vehiculo
+  n_NumEmpleadosBeneficiados:   string;
+  s_TipoTransporte:             string;
+  s_origen:                     string;
+  dFechayHoraSalida:            string;
+  s_TarjetaGasolina:            string;
+  s_destino:                    string;
+  dFechayHoraRegreso:           string;
+
+  // Campos para solicitud Viaticos
+  n_Hospedaje:                  string;
+  n_Alimentos:                  string;
+  n_Casetas:                    string;
+  n_otros:                      string;
+  n_Gasolina:                   string;
+  s_otros:                      string;
+  n_taxi:                       string;
+  s_MotivoViaje:                string;
 }
 
 export interface Producto {

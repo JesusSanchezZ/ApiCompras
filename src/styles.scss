@@ -21,8 +21,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .ex-container {
-  width: 200px;
-  border: 1px solid rgb(221, 203, 203);
+  width: 10rem;
+  // border: 1px solid rgb(221, 203, 203);
+}
+.wr-container {
+  height: 100%;
 }
 
 .efecto:hover {
@@ -35,5 +38,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 table {
   width: 100%;
+}
+
+th {
+  color: #555;
+}
+
+.brand {
+  width: 10rem;
+  height: 3rem;
+}
+
+.txtHeader {
+ font-size: 1.2rem;
 }
 

@@ -1,5 +1,5 @@
-<div class="table-responsive">
-  <table class="table table-striped align-middle" #dTable>
+<div class="table-responsive mat-elevation-z8 p-2">
+  <table class="table table-striped" #dTable>
     <thead>
       <tr>
         <th>Opciones</th>
@@ -18,25 +18,27 @@
     <tbody>
       <tr *ngFor="let solicitud of solicitudGeneral">
         <td>
-              <button [matTooltip]="'Detalle solicitud:' + solicitud.idsolicitud"
-                      matTooltipPosition="after"
-                      mat-icon-button color="primary"
-                      id="linea"
-                      (click)="detalles([solicitud.idsolicitud, solicitud.s_tiposolicitud])"
-                      >
-                <mat-icon>fact_check</mat-icon>
-              </button>
-              <button *ngIf="tipo === 'solicitud' && solicitud.m_montosolicitud === null"
-                      [matTooltip]="'Editar solicitud'"
-                      matTooltipPosition="after"
-                      mat-icon-button color="accent" id="linea"
-                      [routerLink]="['/compras/solicitudes/compras',solicitud.idsolicitud,solicitud.s_tiposolicitud]"><mat-icon>edit</mat-icon></button>
-                      <!-- (click)="edita([solicitud.idsolicitud, solicitud.s_tiposolicitud])" -->
-              <button *ngIf="tipo === 'solicitud'"
-                      matTooltip="Eliminar solicitud"
-                      matTooltipPosition="after"
-                      mat-icon-button color="warn" id="linea"
-                      (click)="eliminar(solicitud.idsolicitud)"><mat-icon>delete</mat-icon></button>
+          <div class="btn-group">
+            <button [matTooltip]="'Detalle solicitud:' + solicitud.idsolicitud"
+            matTooltipPosition="above"
+            mat-icon-button color="primary"
+            id="linea"
+              (click)="detalles([solicitud.idsolicitud, solicitud.s_tiposolicitud])"
+            >
+              <mat-icon>fact_check</mat-icon>
+            </button>
+    <button *ngIf="tipo === 'solicitud' && solicitud.m_montosolicitud === null"
+            [matTooltip]="'Editar solicitud'"
+            matTooltipPosition="above"
+            mat-icon-button color="accent" id="linea"
+            [routerLink]="['/compras/solicitudes/compras',solicitud.idsolicitud,solicitud.s_tiposolicitud]"><mat-icon>edit</mat-icon></button>
+            <!-- (click)="edita([solicitud.idsolicitud, solicitud.s_tiposolicitud])" -->
+    <button *ngIf="tipo === 'solicitud'"
+            matTooltip="Eliminar solicitud"
+            matTooltipPosition="above"
+            mat-icon-button color="warn" id="linea"
+            (click)="eliminar(solicitud.idsolicitud)"><mat-icon>delete</mat-icon></button>
+          </div>
         </td>
         <td>{{ solicitud.idsolicitud }}</td>
         <td>{{ solicitud.s_nombre }}</td>

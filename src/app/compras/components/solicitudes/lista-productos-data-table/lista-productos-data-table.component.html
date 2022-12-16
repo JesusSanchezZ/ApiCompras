@@ -1,0 +1,29 @@
+<div class="table-responsive mat-elevation-z8 p-1">
+    <table class="table table-light" #dTable>
+        <thead>
+            <tr>
+                <th *ngFor="let col of encabezadosColumnas">
+                    {{ col }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let producto of productos">
+                <td>
+                    <button matTooltip="Eliminar Producto"
+                            matTooltipPosition="before"
+                            mat-icon-button color="warn"
+                            (click)="elimina([producto.producto,producto.n_Cantidad,producto.s_Unidad])"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+                <td>{{ producto.producto }}</td>
+                <td class="text-center">{{ producto.n_Cantidad }}</td>
+                <td>{{ producto.s_Unidad }}</td>
+                <td>{{ producto.s_ObservacionesProducto }}</td>
+                <td>{{ producto.s_Segmento }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

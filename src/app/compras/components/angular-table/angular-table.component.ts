@@ -49,11 +49,6 @@ const NAMES: string[] = [
   selector: 'app-angular-table',
   templateUrl: './angular-table.component.html',
   styles: [
-    `
-      table {
-        width: 100%
-      }
-    `
   ]
 })
 export class AngularTableComponent implements OnInit, AfterViewInit {

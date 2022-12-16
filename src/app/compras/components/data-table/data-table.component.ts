@@ -13,16 +13,6 @@ declare const $: any;
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styles: [
-    `
-      .boton {
-        width: 15%;
-        height: 15%;
-      }
-
-      table {
-        width: 100%
-      }
-    `
   ]
 })
 export class DataTableComponent implements OnInit, AfterViewInit {

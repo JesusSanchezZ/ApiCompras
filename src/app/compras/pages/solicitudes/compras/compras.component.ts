@@ -318,15 +318,8 @@ export class ComprasComponent implements OnInit, AfterViewInit {
     console.log(this.productosP);
   }
 
-  eliminarProducto(idProducto: string):void {
-    let indice = 0;
-
-    console.log(this.productosP.find( (p,i) => {
-      if(p.idProducto === idProducto){
-        indice = i;
-      }
-    }));
-    console.log(indice);
+  eliminarProducto(producto: string[]):void {
+    let indice = this.productosP.findIndex(x => x.producto === producto[0] && x.n_Cantidad === producto[1] && x.s_Unidad === producto[2]);
 
     this.productosP.splice(indice, 1);
 

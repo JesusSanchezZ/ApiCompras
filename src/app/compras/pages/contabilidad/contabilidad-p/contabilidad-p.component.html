@@ -8,10 +8,15 @@
   <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected" dynamicHeight="true">
     <mat-tab *ngFor="let tab of tabs" [label]="tab.detalle">
       <div class="container-fluid">
-        <div class="row p-4">
+        <div class="row justify-content-center p-4">
           <div class="col-12" *ngIf="contabilidad.length > 0">
               <app-data-table *ngIf="tab.detalle === 'Solicitudes'" (detalle)="abrirDetalle($event)" [solicitudGeneral]="contabilidad" tipo="contabilidad">
               </app-data-table>
+          </div>
+          <div class="col-8 alert primary-300" *ngIf="contabilidad.length == 0">
+            <div class="row">
+              <h3 class="text-center">No hay elementos para mostrar</h3>
+            </div>
           </div>
           <div class="col-12" *ngIf="tab.detalle !== 'Solicitudes'">
             <div class="row justify-content-center mb-3">

@@ -30,8 +30,7 @@ import { VehiculosPComponent } from './pages/vehiculos/vehiculos-p/vehiculos-p.c
 import { ViaticosComponent } from './pages/solicitudes/viaticos/viaticos.component';
 import { DetalleContabilidadComponent } from './components/detalle-contabilidad/detalle-contabilidad.component';
 import { NuevoProductoComponent } from './pages/herramientas/nuevo-producto/nuevo-producto.component';
-
-
+import { ListaProductosDataTableComponent } from './components/solicitudes/lista-productos-data-table/lista-productos-data-table.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +59,7 @@ import { NuevoProductoComponent } from './pages/herramientas/nuevo-producto/nuev
     ViaticosComponent,
     DetalleContabilidadComponent,
     NuevoProductoComponent,
+    ListaProductosDataTableComponent,
   ],
   imports: [
     CommonModule,

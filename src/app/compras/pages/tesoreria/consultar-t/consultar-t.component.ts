@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+
+import * as toastr from 'toastr';
+
 import { SolicitudGeneral } from 'src/app/compras/interfaces/solicitudes/solicitudGeneral.interface';
-import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
 import { Tabs } from '../../solicitudes/consultar/consultar.component';
+
+import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
 
 @Component({
   selector: 'app-consultar-t',
@@ -26,6 +30,15 @@ export class ConsultarTComponent implements OnInit {
   }
 
   abrirDetalle(detalle: string[]): void {
+    if(this.tabs.length == 5){
+      toastr.error('Excedió el númeor máximo de pestañas','',{ toastClass: 'mt-5' });
+      return;
+    }
+    if(this.tabs.filter(e => e.detalle === detalle[0]).length !== 0){
+      toastr.info(`La solicitud ${detalle[0]}, ya está abierta`,'',{toastClass: 'mt-5' });
+      return;
+    }
+
     this.tabs.push({tipo: detalle[1], detalle: detalle[0]});
     this.selected = this.tabs.length - 1;
   }

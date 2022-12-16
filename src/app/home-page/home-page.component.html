@@ -1,31 +1,32 @@
-<mat-drawer-container fullscreen>
+<!-- <mat-sidenav-container class="sticky-top">
 
+</mat-sidenav-container> -->
+
+<app-header (estado)="cambiaEstado($event)"></app-header>
+
+<mat-drawer-container class="wr-container">
   <mat-drawer mode="side" [opened]="menuState" class="ex-container">
-
     <app-side-nav></app-side-nav>
-
   </mat-drawer>
 
   <mat-drawer-content>
-
-    <app-header (estado)="cambiaEstado($event)"></app-header>
-
-    <div class="row justify-content-center" cdk-scrollable="false">
-      <div class="col-11">
-
+    <div class="row m-2">
+      <div class="col-12">
+        <div class="row">
           <router-outlet></router-outlet>
-
+        </div>
       </div>
     </div>
-
-    <mat-toolbar color="" class="mt-5">
-      <div class="spacer"></div>
-      <div class="spacer">
-        <p class="text-center">© | {{ year }}</p>
-      </div>
-      <div class="spacer"></div>
-    </mat-toolbar>
-
   </mat-drawer-content>
 
 </mat-drawer-container>
+
+<footer class="bd-footer">
+  <mat-toolbar class="ft">
+    <div class="spacer"></div>
+    <div class="spacer">
+      <p class="text-center">© | {{ year }}</p>
+    </div>
+    <div class="spacer"></div>
+  </mat-toolbar>
+</footer>

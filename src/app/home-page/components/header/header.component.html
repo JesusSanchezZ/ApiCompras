@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="sticky-top">
+<!-- <mat-toolbar color="primary">
   <button mat-icon-button
     [matTooltip]="menuState?'Contraer menú': 'Expandir menú'"
     (click)="ocultaMenu()"
@@ -17,4 +17,29 @@
   >
     <mat-icon>logout</mat-icon>
   </button>
-</mat-toolbar>
+</mat-toolbar> -->
+<!-- <mat-toolbar color="primary"> -->
+  <nav class="navbar sticky-top mc">
+    <div class="container-fluid">
+      <div>
+        <img class="img-thumbnail brand me-2" src="assets/img/mc_logo.png">
+        <button mat-icon-button
+                [matTooltip]="menuState?'Contraer menú':'Expandir menú'"
+                (click)="ocultaMenu()"
+        >
+          <mat-icon>{{ menuState? 'menu_open': 'menu' }}</mat-icon>
+        </button>
+        <span class="txtHeader">Compras</span>
+      </div>
+
+      <div>
+        <span class="me-2 txtHeader">{{nombre | titlecase }}</span>
+        <button mat-icon-button matTooltip="Salir"
+                (click)="salir()"
+        >
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+    </div>
+  </nav>
+<!-- </mat-toolbar> -->

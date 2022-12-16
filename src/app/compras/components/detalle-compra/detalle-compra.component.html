@@ -94,7 +94,7 @@
   <div class="col-6">
     <div class="row justify-content-center" *ngIf="detalleSolicitud.length > 0">
       <div class="col">
-        <div class="row mt-2">
+        <div class="row mt-2" *ngIf="!!detalleSolicitud[0].Productos">
           <mat-accordion>
             <mat-expansion-panel expanded="true">
               <mat-expansion-panel-header>
@@ -107,6 +107,7 @@
                 <div class="col mb-3">
                   <div class="row">
                     <app-detalle-compras [productos]="detalleSolicitud[0].Productos"></app-detalle-compras>
+                    <!-- <app-lista-productos-data-table [productos]="detalleSolicitud[0].Productos"></app-lista-productos-data-table> -->
                   </div>
                 </div>
               </div>
@@ -122,55 +123,111 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="row justify-content-center">
-                <div class="col">
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Id</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].idsolicitud">
-                    </mat-form-field>
+              <div class="row justify-content-center" [ngSwitch]="detalleSolicitud[0].s_tiposolicitud">
+                <ng-container *ngSwitchCase="'Otros Gastos'">
+                  <div class="col">
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Id</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].idsolicitud">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Clave del empleado</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_claveEmpleado">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Tipo</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_tiposolicitud">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Etapa</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].Etapa">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Monto de la solicitud</mat-label>
+                        <span matPrefix>$ &nbsp;</span>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].m_montosolicitud">
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Tipo</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_tiposolicitud">
-                    </mat-form-field>
+                  <div class="col">
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Fecha del requerimiento</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].d_fecharequerimiento">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Medio de pago</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_mediopago">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Dilación</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].dilacion">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Beneficiario</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_nombres_empleados">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <mat-label>Monto comprobado</mat-label>
+                        <span matPrefix>$ &nbsp;</span>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].d_MontoComprobado">
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Fecha de requerimiento</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
-                    </mat-form-field>
+                </ng-container>
+
+                <ng-container *ngSwitchDefault>
+                  <div class="col">
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Id</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].idsolicitud">
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Tipo</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_tiposolicitud">
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Fecha de requerimiento</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].d_fecharequerimiento | date:'dd/MM/YYYY hh:mm a'">
+                      </mat-form-field>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Clave de empleado</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_claveEmpleado">
-                    </mat-form-field>
+                  <div class="col">
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Clave de empleado</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_claveEmpleado">
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Etapa</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].Etapa">
+                      </mat-form-field>
+                    </div>
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Nombre de quien recibe</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_NombreRecibe">
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Etapa</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].Etapa">
-                    </mat-form-field>
+                  <div class="col">
+                    <div class="row">
+                      <mat-form-field>
+                        <mat-label>Observaciones</mat-label>
+                        <input matInput type="text" readonly [value]="detalleSolicitud[0].s_Observaciones">
+                      </mat-form-field>
+                    </div>
                   </div>
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Nombre de quien recibe</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_NombreRecibe">
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="row">
-                    <mat-form-field>
-                      <mat-label>Observaciones</mat-label>
-                      <input matInput type="text" readonly [value]="detalleSolicitud[0].s_Observaciones">
-                    </mat-form-field>
-                  </div>
-                </div>
+                </ng-container>
+
               </div>
 
             </mat-expansion-panel>
