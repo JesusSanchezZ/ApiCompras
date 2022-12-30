@@ -1,0 +1,164 @@
+<div class="row justify-content-center">
+  <div class="col-6">
+    <div class="row mb-4" *ngIf="detalleSolicitud.length > 0 && detalleSolicitud[0].Etapa === 'Solicitud pendiente de asignación de vehiculo'">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Registrar información salida de vehículo</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <form [formGroup]="formValidacion">
+            <div class="row justify-content-center m-1">
+              <div class="col">
+                <div class="row" *ngIf="detalleSolicitud.length > 0">
+                  <mat-form-field appearance="fill" *ngIf="marca.length > 0">
+                    <mat-label>Marca</mat-label>
+                    <mat-select formControlName="marca">
+                      <mat-option *ngFor="let marc of marca" [value]="marc">{{ marc }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="submarca.length > 0">
+                    <mat-label>Modelo</mat-label>
+                    <mat-select formControlName="submarca">
+                      <mat-option *ngFor="let sub of submarca" [value]="sub">{{ sub }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill" *ngIf="placa.length > 0">
+                    <mat-label>Placa</mat-label>
+                    <mat-select formControlName="placa">
+                      <mat-option *ngFor="let plac of placa" [value]="plac">{{ plac }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <ng-container *ngIf="detalleSolicitud[0].s_TarjetaTag === 'si'">
+                    <mat-form-field appearance="fill" *ngIf="tag.length > 0">
+                      <mat-label>Tarjeta TAG</mat-label>
+                      <mat-select formControlName="tag">
+                        <mat-option *ngFor="let tg of tag" [value]="tg">{{ tg }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </ng-container>
+                  <ng-container *ngIf="detalleSolicitud[0].s_TarjetaGasolina === 'si'">
+                    <ng-container *ngIf="gasolina.length > 0">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Tarjeta de gasolina</mat-label>
+                        <mat-select formControlName="gasolina">
+                          <mat-option *ngFor="let gas of gasolina" [value]="gas">{{ gas }}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field appearance="fill">
+                        <mat-label>Saldo</mat-label>
+                        <span matPrefix>$ &nbsp;</span>
+                        <input matInput readonly type="text" formControlName="saldo">
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Observaciones</mat-label>
+                    <textarea matInput cdkTextareaAutosize="false" rows="2" formControlName="observaciones"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-4 m-1">
+                    <div class="row">
+                      <button mat-raised-button color="warn">Rechazar</button>
+                    </div>
+                  </div>
+                  <div class="col-4 m-1">
+                    <div class="row">
+                      <button mat-raised-button color="accent">Guardar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="row">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Histórico solicitud</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="row justify-content-center mt-2">
+            <div class="col" *ngIf="historicos.length > 0">
+              <div class="row mb-1" *ngFor="let historico of historicos">
+                <app-detalle-historico [historico]="historico"></app-detalle-historico>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="row">
+      <mat-accordion>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>Información de la solicitud</mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="row justify-content-center mt-2" *ngIf="detalleSolicitud.length > 0">
+            <div class="col-6">
+              <div class="row">
+                <mat-form-field>
+                  <mat-label>Nombre</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_nombre">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Origen</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_origen">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Fecha salida solicitud</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].dFechayHoraSalida">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tipo de transporte</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_TipoTransporte">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <mat-form-field>
+                  <mat-label>Pasajeros Extra</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].n_NumEmpleadosBeneficiados">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Destino</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_destino">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Fecha regreso solicitud</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].dFechayHoraRegreso">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tarjeta de gasolina</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_TarjetaGasolina">
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Gasto</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].idTipoCosto">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <mat-form-field>
+                  <mat-label>Descripción</mat-label>
+                  <input matInput readonly type="text" [value]="detalleSolicitud[0].s_descripcion">
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>
+
+<pre>{{ formValidacion.value | json }}</pre>

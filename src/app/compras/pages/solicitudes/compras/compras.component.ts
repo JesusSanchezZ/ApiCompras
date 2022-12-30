@@ -1,36 +1,23 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-// import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-// import { MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { map, Observable, startWith, switchMap, switchScan, tap } from 'rxjs';
+import { map, Observable, startWith, switchMap } from 'rxjs';
 import * as toastr from 'toastr';
 import * as _moment from 'moment';
-//import {default as _rollupMoment} from 'moment';
 
 import { CategoriaUnidades } from 'src/app/compras/interfaces/solicitudes/compras/categoriaUnidades.interface';
 import { DatosUsuario } from 'src/app/compras/interfaces/solicitudes/detalleUsuario.interface';
 import { EditarCompra, Producto, SolicitudCompra } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
 import { Producto as Productos } from 'src/app/compras/interfaces/solicitudes/compras/compras.interface';
 import { Segmentos } from 'src/app/compras/interfaces/solicitudes/compras/segmentos.interface';
-import { TipoSolicitud } from 'src/app/compras/interfaces/solicitudes/tipoSolicitud.interface';
+
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
 
 const moment = _moment;
-// Formato de fecha para datapicker
-// export const FORMATO = {
-//   parse: {
-//     dateInput: 'L'
-//   },
-//   display: {
-//     dateInput: 'L',
-//     monthYearLabel:'MM/DD/YYYY',
-//     dateA11yLabel: 'L',
-//     monthYearA11yLabel: 'MM/DD/YYYY'
-//   }
-// }
 
 interface Segment {
   segmento: string,
@@ -46,15 +33,7 @@ interface Segment {
         width: 100%;
       }
     `
-  ],
-  // providers: [
-  //   {
-  //     provide: DateAdapter,
-  //     useClass: MomentDateAdapter,
-  //     deps:[MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-  //   },
-  //   {provide: MAT_DATE_FORMATS, useValue: FORMATO}
-  // ]
+  ]
 })
 export class ComprasComponent implements OnInit, AfterViewInit {
 
@@ -114,12 +93,6 @@ export class ComprasComponent implements OnInit, AfterViewInit {
   idProducto:              '0',
  };
 
- tipoSolicitud: TipoSolicitud = {
-  accion: 'DatosUsuario',
-  usuario: '66940',
-  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6IjY2OTQwIiwiSUQiOiI2Njk0MCIsIm5iZiI6MTY2Mjc0MTgwNCwiZXhwIjoxNjYyNzc3ODA0LCJpYXQiOjE2NjI3NDE4MDQsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTU0NjQiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjU1NDY0In0.0ksc-I66gpJORSflwF1WU7Tl_ipk01TaCR_9S6YIUcc'
- };
-
   datosUsuario!: DatosUsuario[];
   productosSolicitados: Productos[] = [];
   unidades: CategoriaUnidades[] = [];
@@ -128,7 +101,13 @@ export class ComprasComponent implements OnInit, AfterViewInit {
   proyectos: string[] = [];
   segmentos: Segment[] = [];
 
+  datosusuarioRef = false;
+  productosRef = false;
+  unidadesRef = false;
+  segmentosRef = false;
+
   constructor(private activatedRoute: ActivatedRoute,
+              private dialog: MatDialog,
               private solicitudes: SolicitudesService,
               private fb: FormBuilder,
               private router: Router)
@@ -155,25 +134,51 @@ export class ComprasComponent implements OnInit, AfterViewInit {
       map( value => this._filter(value)),
     );
 
+    this.abrirDialog('Cargando');
+
     this.solicitudes.datosUsuario()
-        .subscribe( datosUsuario => this.datosUsuario = datosUsuario);
+        .subscribe({
+          next: datosUsuario => this.datosUsuario = datosUsuario,
+          complete: () => {
+            this.datosusuarioRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.productos()
-        .subscribe( productos => this.productosSolicitados = productos);
+        .subscribe({
+          next: productos => this.productosSolicitados = productos,
+          complete: () => {
+            this.productosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.unidades()
-        .subscribe( unidades => this.unidades = unidades);
+        .subscribe({
+          next: unidades => this.unidades = unidades,
+          complete: () => {
+            this.unidadesRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.segmentos()
-        .subscribe( segmentos => {
-          this.segmentosGene = segmentos;
+        .subscribe({
+          next: segmentos => {
+            this.segmentosGene = segmentos;
 
-          this.segmentosGene.map( el => {
-            if(!this.clientes.includes(el.cliente)){
-              this.clientes.push(el.cliente);
-            }
-          });
+            this.segmentosGene.map( el => {
+              if(!this.clientes.includes(el.cliente)){
+                this.clientes.push(el.cliente);
+              }
+            });
 
+          },
+          complete: () => {
+            this.segmentosRef = true;
+            this.cerrarDialog();
+          }
         });
 
 
@@ -218,6 +223,26 @@ export class ComprasComponent implements OnInit, AfterViewInit {
     if( error?.['required']) return 'Este campo es requerido';
 
     return '';
+  }
+
+  actualizarDatos(): Observable<any> {
+    return this.solicitudes.datosUsuario();
+  }
+
+  abrirDialog(texto: string) {
+    this.dialog.open(SpinnerComponent,{
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: texto
+      }
+    });
+  }
+
+  cerrarDialog() {
+    if(this.datosusuarioRef && this.productosRef && this.unidadesRef && this.segmentosRef)
+      this.dialog.closeAll();
   }
 
   compraError(campo: string) : string {
@@ -398,17 +423,22 @@ export class ComprasComponent implements OnInit, AfterViewInit {
           });
           this.router.navigateByUrl('/compras/solicitudes');
         } else {
+          this.abrirDialog('Actulaizando');
+
           console.log('Iguales');
           this.solicitudes.actualizaSolicitud(editarCompra)
-              .subscribe( resp => {
-                if(resp.success === 'true'){
-                  toastr.success('Solicitud actualizada',resp.payload,{
-                    toastClass: 'mt-5'
-                  });
-                } else {
-                  toastr.error(resp.mensaje,'',{toastClass: 'mt-5'});
-                }
-                this.router.navigateByUrl('/compras/solicitudes');
+              .subscribe({
+                next: resp => {
+                  if(resp.success === 'true'){
+                    toastr.success('Solicitud actualizada',resp.payload,{
+                      toastClass: 'mt-5'
+                    });
+                  } else {
+                    toastr.error(resp.mensaje,'',{toastClass: 'mt-5'});
+                  }
+                  this.router.navigateByUrl('/compras/solicitudes');
+                },
+                complete: () => this.dialog.closeAll()
               });
         }
       } else {
@@ -469,20 +499,25 @@ export class ComprasComponent implements OnInit, AfterViewInit {
       // return;
 
       // console.log(this.solicitudCompra);
+      this.abrirDialog('Guardando');
+
       this.solicitudes
         .generaOrdenCompra(this.solicitudCompra)
-        .subscribe((resp) => {
-          // console.log(resp);
-          if (resp.success === 'true') {
-            toastr.success(resp.mensaje, resp.payload, { toastClass: 'mt-5' });
-            setTimeout(() => {
-              this.router.navigateByUrl('/compras/solicitudes');
-            }, 1000);
-          } else {
-            toastr.error('No se pudo generar la compra', '', {
-              toastClass: 'mt-5',
-            });
-          }
+        .subscribe({
+          next: (resp) => {
+            // console.log(resp);
+            if (resp.success === 'true') {
+              toastr.success(resp.mensaje, resp.payload, { toastClass: 'mt-5' });
+              setTimeout(() => {
+                this.router.navigateByUrl('/compras/solicitudes');
+              }, 1000);
+            } else {
+              toastr.error('No se pudo generar la compra', '', {
+                toastClass: 'mt-5',
+              });
+            }
+          },
+          complete: () => this.dialog.closeAll()
         });
     }
   }

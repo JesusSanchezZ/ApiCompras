@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "startBack": "D:\\VS\\ruebaCors\\dotnet run | ng serve -o"
+    "startBack": "dotnet run -p D:\\VS\\pruebaCors | ng serve"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +26,7 @@
     "@types/datatables.net": "^1.10.23",
     "@types/toastr": "^2.1.40",
     "datatables.net-dt": "^1.12.1",
+    "file-saver": "^2.0.5",
     "jquery": "^3.6.1",
     "moment": "^2.29.4",
     "ngx-spinner": "^13.1.1",
@@ -38,6 +39,8 @@
     "@angular-devkit/build-angular": "~13.3.6",
     "@angular/cli": "~13.3.6",
     "@angular/compiler-cli": "~13.3.0",
+    "@types/file-saver": "^2.0.5",
+    "@types/fs-extra": "^9.0.13",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",

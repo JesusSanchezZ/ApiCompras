@@ -2,11 +2,7 @@
   <div class="col-6">
     <div class="row justify-content-center">
       <div class="col-2">
-        <button mat-mini-fab matTooltip="Cerrar detalle" matTooltipPosition="after" color="warn"
-            (click)="cerrar(solicitud)"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
+
       </div>
     </div>
   </div>
@@ -24,7 +20,7 @@
                 <h2>Histórico solicitud</h2>
               </mat-panel-title>
             </mat-expansion-panel-header>
-            <div *ngFor="let historico of historicoEtapasSolicitud" class="row m-1">
+            <div *ngFor="let historico of historicoEtapasSolicitud" class="row m-2">
               <app-detalle-historico [historico]="historico"></app-detalle-historico>
             </div>
           </mat-expansion-panel>

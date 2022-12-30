@@ -16,21 +16,27 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { DatosGeneralesComponent } from './components/datos-generales/datos-generales.component';
 import { DetalleCompraComponent } from './components/detalle-compra/detalle-compra.component';
 import { DetalleComprasComponent } from './components/detalle-compras/detalle-compras.component';
+import { DetalleContabilidadComponent } from './components/detalle-contabilidad/detalle-contabilidad.component';
 import { DetalleHistoricoComponent } from './components/detalle-historico/detalle-historico.component';
 import { DetalleSolicitudComponent } from './components/detalle-solicitud/detalle-solicitud.component';
 import { DispComprasComponent } from './pages/tesoreria/disp-compras/disp-compras.component';
 import { DispOtrosGastosComponent } from './pages/tesoreria/disp-otros-gastos/disp-otros-gastos.component';
 import { HerramientasComponent } from './pages/herramientas/herramientas.component';
 import { ListaProductosComponent } from './components/solicitudes/lista-productos/lista-productos.component';
+import { ListaProductosDataTableComponent } from './components/solicitudes/lista-productos-data-table/lista-productos-data-table.component';
+import { NuevoProductoComponent } from './pages/herramientas/nuevo-producto/nuevo-producto.component';
 import { OtrosGastosComponent } from './pages/solicitudes/otros-gastos/otros-gastos.component';
 import { SolicitudesSoComponent } from './components/solicitudes-so/solicitudes-so.component';
+import { SpinnerModule } from '../components/spinner/spinner.module';
 import { UsuariosPComponent } from './pages/usuarios/usuarios-p/usuarios-p.component';
 import { VehiculoComponent } from './pages/solicitudes/vehiculo/vehiculo.component';
 import { VehiculosPComponent } from './pages/vehiculos/vehiculos-p/vehiculos-p.component';
 import { ViaticosComponent } from './pages/solicitudes/viaticos/viaticos.component';
-import { DetalleContabilidadComponent } from './components/detalle-contabilidad/detalle-contabilidad.component';
-import { NuevoProductoComponent } from './pages/herramientas/nuevo-producto/nuevo-producto.component';
-import { ListaProductosDataTableComponent } from './components/solicitudes/lista-productos-data-table/lista-productos-data-table.component';
+import { DetalleTesoreriaComponent } from './components/detalle-tesoreria/detalle-tesoreria.component';
+import { CotizacionProductosComponent } from './components/detalleTesoreria/cotizacion-productos/cotizacion-productos.component';
+import { CondicionesPagoComponent } from './components/detalleTesoreria/condiciones-pago/condiciones-pago.component';
+import { DataTableVehiculosComponent } from './components/data-table-vehiculos/data-table-vehiculos.component';
+import { DetalleVehiculosComponent } from './components/detalle-vehiculos/detalle-vehiculos.component';
 
 @NgModule({
   declarations: [
@@ -45,21 +51,26 @@ import { ListaProductosDataTableComponent } from './components/solicitudes/lista
     DatosGeneralesComponent,
     DetalleCompraComponent,
     DetalleComprasComponent,
+    DetalleContabilidadComponent,
     DetalleHistoricoComponent,
     DetalleSolicitudComponent,
     DispComprasComponent,
     DispOtrosGastosComponent,
     HerramientasComponent,
     ListaProductosComponent,
+    ListaProductosDataTableComponent,
+    NuevoProductoComponent,
     OtrosGastosComponent,
     SolicitudesSoComponent,
     UsuariosPComponent,
     VehiculoComponent,
     VehiculosPComponent,
     ViaticosComponent,
-    DetalleContabilidadComponent,
-    NuevoProductoComponent,
-    ListaProductosDataTableComponent,
+    DetalleTesoreriaComponent,
+    CotizacionProductosComponent,
+    CondicionesPagoComponent,
+    DataTableVehiculosComponent,
+    DetalleVehiculosComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +78,7 @@ import { ListaProductosDataTableComponent } from './components/solicitudes/lista
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
+    SpinnerModule,
   ]
 })
 export class ComprasModule { }

@@ -1,0 +1,49 @@
+<div class="table-responsive mat-elevation-z8 p-1">
+  <table class="table table-light" #dTable>
+    <thead>
+      <tr>
+        <th *ngFor="let col of encabezados">
+          {{ col }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of cotizacionProductos">
+        <td>
+          <div class="btn-group" role="group">
+            <button mat-icon-button
+                    *ngIf="producto.s_RutaInvocacionPDF != null"
+                    matTooltip="Descar PDF"
+                    color="primary"
+                    (click)="obtenerArchivo(producto.s_RutaInvocacionPDF)"
+            >
+              <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+            <button mat-icon-button
+                    *ngIf="producto.s_RutaInvocacionXML != null"
+                    matTooltip="Descargar XML"
+                    color="primary"
+                    (click)="obtenerArchivo(producto.s_RutaInvocacionXML)"
+            >
+              <mat-icon>code</mat-icon>
+            </button>
+            <div style="display:flex; align-items: flex-end;">
+              <button mat-icon-button matTooltip="Validar Adjuntos" color="primary">
+                <mat-icon>attach_money</mat-icon>
+              </button>
+            </div>
+          </div>
+        </td>
+        <td>{{ producto.S_PRODUCTO }}</td>
+        <td>{{ producto.S_PROVEEDOR }}</td>
+        <td>{{ producto.n_Cantidad }}</td>
+        <td>{{ producto.d_PrecioUnitario | currency:'$'}}</td>
+        <td>{{ producto.n_Cantidad }}</td>
+        <td>{{ producto.d_IVA }}</td>
+        <td>{{ producto.d_PrecioTotal | currency:'$' }}</td>
+        <td>{{ producto.d_Total | currency:'$' }}</td>
+        <td>{{ producto.s_Observaciones }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

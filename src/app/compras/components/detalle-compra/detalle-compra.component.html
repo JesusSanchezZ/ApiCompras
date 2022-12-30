@@ -39,7 +39,7 @@
                   <mat-label>Motivo de rechazo</mat-label>
                   <mat-select formControlName="motivo">
                     <mat-option *ngFor="let motivo of motivos"
-                      [value]="motivo.id"
+                      [value]="motivo.valores"
                     >
                       {{ motivo.valores }}
                     </mat-option>
@@ -78,7 +78,7 @@
             <mat-panel-title><h2>Histórico solicitud</h2></mat-panel-title>
           </mat-expansion-panel-header>
 
-          <div class="row justify-content-center" *ngIf="historicos.length > 0">
+          <div class="row justify-content-center mt-2" *ngIf="historicos.length > 0">
             <div class="col">
               <div *ngFor="let historico of historicos"
                 class="row mb-1">
@@ -103,7 +103,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="row justify-content-center">
+              <div class="row justify-content-center mt-2">
                 <div class="col mb-3">
                   <div class="row">
                     <app-detalle-compras [productos]="detalleSolicitud[0].Productos"></app-detalle-compras>
@@ -123,7 +123,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
 
-              <div class="row justify-content-center" [ngSwitch]="detalleSolicitud[0].s_tiposolicitud">
+              <div class="row justify-content-center mt-2" [ngSwitch]="detalleSolicitud[0].s_tiposolicitud">
                 <ng-container *ngSwitchCase="'Otros Gastos'">
                   <div class="col">
                     <div class="row">

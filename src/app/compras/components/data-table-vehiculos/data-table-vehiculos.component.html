@@ -1,0 +1,32 @@
+<div class="table-responsive mat-elevation-z8 p-1">
+  <table class="table table-striped" #dTable>
+    <thead>
+      <tr>
+        <th *ngFor="let col of encabezados">
+          {{ col }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehiculo of vehiculos">
+        <td>
+          <button mat-icon-button
+                  [matTooltip]="'Detalle solicitud: ' + vehiculo.idsolicitud"
+                  matTooltipPosition="above"
+                  color="primary"
+                  (click)="detalles([vehiculo.idsolicitud, vehiculo.s_tiposolicitud])"
+          >
+            <mat-icon>fact_check</mat-icon>
+          </button>
+        </td>
+        <td>{{ vehiculo.idsolicitud }}</td>
+        <td>{{ vehiculo.s_nombre }}</td>
+        <td>{{ vehiculo.dilacion }}</td>
+        <td>{{ vehiculo.s_tiposolicitud }}</td>
+        <td>{{ vehiculo.s_placa }}</td>
+        <td>{{ vehiculo.d_fecharequerimiento }}</td>
+        <td>{{ vehiculo.Etapa }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

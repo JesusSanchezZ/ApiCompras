@@ -28,7 +28,7 @@
 
           <div class="col-12" *ngIf="tab.detalle !== 'Solicitudes'">
             <div class="row">
-
+              <app-detalle-tesoreria [solicitud]="[tab.detalle, tab.tipo]"></app-detalle-tesoreria>
             </div>
           </div>
         </div>

@@ -1,9 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 
 import { Colonia, Estado, MedioPago, Municipio, Resp, Usuario } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
+
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 
 import { ComprasService } from 'src/app/compras/services/compras.service';
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
@@ -116,37 +119,91 @@ export class ViaticosComponent implements OnInit {
 
   prueba: Colonia[] = [];
 
-  constructor(private compras:ComprasService, private fb: FormBuilder,
-              private solicitudes:SolicitudesService) { }
+  centrosRef = false;
+  plazasRef = false;
+  estadosRef = false;
+  mediPagoRef = false;
+  tipoTransRef = false;
+  usuariosRef = false;
+  segmentosRef = false;
+
+  constructor(private dialog: MatDialog,
+              private compras: ComprasService,
+              private fb: FormBuilder,
+              private solicitudes: SolicitudesService) { }
 
   ngOnInit(): void {
     this.fechaMax.setFullYear(this.fechaMin.getFullYear() + 1, 11, 31);
 
+    this.abrirDialog('Cargando');
+
     this.compras.catCentro()
-        .subscribe( centros => this.centros = centros );
+        .subscribe({
+          next: centros => this.centros = centros,
+          complete: () => {
+            this.centrosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.catPlazasMc()
-        .subscribe( plazas => this.plazas = plazas);
+        .subscribe({
+          next: plazas => this.plazas = plazas,
+          complete: () => {
+            this.plazasRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.estados()
-        .subscribe( estados => this.estados = estados);
+        .subscribe({
+          next: estados => this.estados = estados,
+          complete: () => {
+            this.estadosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.catMedioPagoFiltrado()
-        .subscribe( medioPago => this.medioPago = medioPago);
+        .subscribe({
+          next: medioPago => this.medioPago = medioPago,
+          complete: () => {
+            this.mediPagoRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.catTipoTransporte()
-        .subscribe( transporte => this.transporte = transporte);
+        .subscribe({
+          next: transporte => this.transporte = transporte,
+          complete: () => {
+            this.tipoTransRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.usuarios()
-        .subscribe( usuarios => this.emple = usuarios);
+        .subscribe({
+          next: usuarios => this.emple = usuarios,
+          complete: () => {
+            this.usuariosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.segmentos()
-        .subscribe(seg => {
-          seg.forEach(x => this.segm.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
-          this.segm.forEach(x => {
-            if(!this.clientes.includes(x.cliente))
-              this.clientes.push(x.cliente);
-          });
+        .subscribe({
+          next: seg => {
+            seg.forEach(x => this.segm.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
+            this.segm.forEach(x => {
+              if(!this.clientes.includes(x.cliente))
+                this.clientes.push(x.cliente);
+            });
+          },
+          complete: () => {
+            this.segmentosRef = true;
+            this.cerrarDialog();
+          }
         });
 
     this.formViaticos.get('gastoOperativo')?.valueChanges
@@ -269,6 +326,23 @@ export class ViaticosComponent implements OnInit {
             this.formViaticos.controls['TAG'].setValue(false);
           }
         });
+  }
+
+  abrirDialog(texto: string) {
+    this.dialog.open(SpinnerComponent,{
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: texto
+      }
+    });
+  }
+
+  cerrarDialog() {
+    if(this.centrosRef && this.centrosRef && this.mediPagoRef && this.plazasRef
+        && this.segmentosRef && this.tipoTransRef && this.usuariosRef)
+      this.dialog.closeAll();
   }
 
   errores(campo: string): string {

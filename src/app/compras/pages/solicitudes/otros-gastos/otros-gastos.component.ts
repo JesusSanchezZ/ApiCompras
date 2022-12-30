@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import * as toastr from 'toastr';
 
-import { MedioPago, Resp } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
+import { MedioPago } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
 import { Empleado, OtrosGastos } from 'src/app/compras/interfaces/solicitudes/tipoSolicitud.interface';
 
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
-import { Router } from '@angular/router';
 
 interface Segmento {
   segmento: string;
@@ -56,29 +59,55 @@ export class OtrosGastosComponent implements OnInit {
   claveEmpleado = '';
   clientes: string[] = [];
 
-  constructor(private fb: FormBuilder, private solicitudes: SolicitudesService,
+  datosUsuarioRef = false;
+  medioPagoRef = false;
+  segmentosRef = false;
+
+  constructor(private dialog: MatDialog,
+              private fb: FormBuilder,
+              private solicitudes: SolicitudesService,
               private router: Router) { }
 
   ngOnInit(): void {
     // Establece la fecha máxima en un año
     this.fechaMax.setFullYear(this.fechaMin.getFullYear() + 1,11,31);
 
+    this.abrirDialog('Gargando');
+
     this.solicitudes.datosUsuario()
-        .subscribe(datos => {
-          this.otrosFormulario.controls['beneficiario'].setValue(datos[0].s_nombre);
-          this.claveEmpleado = datos[0].s_claveEmpleado;
+        .subscribe({
+          next: datos => {
+            this.otrosFormulario.controls['beneficiario'].setValue(datos[0].s_nombre);
+            this.claveEmpleado = datos[0].s_claveEmpleado;
+          },
+          complete: () => {
+            this.datosUsuarioRef = true;
+            this.cerrarDialog();
+          }
         });
 
     this.solicitudes.catMedioPagoFiltrado()
-        .subscribe(medio => this.medioPago = medio);
+        .subscribe({
+          next: medio => this.medioPago = medio,
+          complete: () => {
+            this.medioPagoRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.segmentos()
-        .subscribe( seg => {
-          seg.forEach( s => this.segm.push({segmento: s.segmento, nombre: s.nombre, cliente: s.cliente}));
-          this.segm.forEach(x => {
-            if(!this.clientes.includes(x.cliente))
-              this.clientes.push(x.cliente);
-          });
+        .subscribe({
+          next: seg => {
+            seg.forEach( s => this.segm.push({segmento: s.segmento, nombre: s.nombre, cliente: s.cliente}));
+            this.segm.forEach(x => {
+              if(!this.clientes.includes(x.cliente))
+                this.clientes.push(x.cliente);
+            });
+          },
+          complete: () => {
+            this.segmentosRef = true;
+            this.cerrarDialog();
+          }
         });
 
     this.otrosFormulario.get('medioPago')?.valueChanges
@@ -101,6 +130,22 @@ export class OtrosGastosComponent implements OnInit {
                   this._eliminarSegmento(num - 1);
           }
         });
+  }
+
+  abrirDialog(texto: string){
+    this.dialog.open(SpinnerComponent,{
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: texto
+      }
+    });
+  }
+
+  cerrarDialog(){
+    if(this.datosUsuarioRef && this.medioPagoRef && this.segmentosRef)
+      this.dialog.closeAll();
   }
 
   enviarSolicitud(){

@@ -3,6 +3,17 @@
   <h3 class="text-center m-1">Consultar</h3>
   <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected" dynamicHeight="true">
     <mat-tab *ngFor="let tab of tabs" [label]="tab.detalle">
+      <ng-template mat-tab-label>
+        {{ tab.detalle }}
+        <button mat-icon-button
+            *ngIf="tab.detalle !== 'Solicitudes'"
+            matTooltip="Cerrar detalle"
+            matTooltipPosition="above" color="warn"
+            (click)="cerrar([tab.detalle])"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </ng-template>
       <app-solicitudes-so *ngIf="tab.detalle === 'Solicitudes'" (detalleHijo)="nuevoDetalle($event)"></app-solicitudes-so>
       <app-detalle-solicitud *ngIf="tab.detalle !== 'Solicitudes'" [solicitud]="[tab.detalle,tab.tipo]" (cerrarSolicitud)="cerrar($event)"></app-detalle-solicitud>
     </mat-tab>

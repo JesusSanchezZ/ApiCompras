@@ -9,12 +9,13 @@ export interface MotivosRechazo {
 }
 
 export interface Autorizacion {
-  b_Rechazo:       number;
-  idsolicitud:     string;
-  Productos:       Producto[];
-  s_empresa:       string;
-  s_Observaciones: string;
-  s_tiposolicitud: string;
+  b_Rechazo:        number;
+  idsolicitud:      string;
+  MotivodeRechazo?: string;
+  Productos:        Producto[];
+  s_empresa:        string;
+  s_Observaciones:  string;
+  s_tiposolicitud:  string;
 }
 
 export interface Producto {

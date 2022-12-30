@@ -6,10 +6,27 @@
   </div>
 
   <mat-tab-group mat-align-tabs="start" [selectedIndex]="selected" dynamicHeight="true">
-    <mat-tab [label]="tabs[selected]">
-      <div class="row p-4">
-        <div class="col">
-          Contenido principal
+    <mat-tab *ngFor="let tab of tabs" [label]="tab.detalle">
+      <ng-template mat-tab-label>
+        {{ tab.detalle }}
+        <button matTooltip="Cerrar detalle"
+                matTooltipPosition="above"
+                *ngIf="tab.detalle !== 'Solicitudes'"
+                (click)="cerrarDetalle([tab.detalle, tab.tipo])"
+                mat-icon-button
+                color="warn"
+        >
+          <mat-icon>closed</mat-icon>
+        </button>
+      </ng-template>
+      <div class="container-fluid" *ngIf="solicitudVehiculo.length > 0">
+        <div class="row p-4">
+          <div class="col-12" *ngIf="tab.detalle === 'Solicitudes'">
+            <app-data-table-vehiculos [vehiculos]="solicitudVehiculo" (detalle)="abrirDetalle($event)"></app-data-table-vehiculos>
+          </div>
+          <div class="col-12" *ngIf="tab.detalle !== 'Solicitudes'">
+            <app-detalle-vehiculos [solicitud]="[tab.detalle, tab.tipo]"></app-detalle-vehiculos>
+          </div>
         </div>
       </div>
     </mat-tab>

@@ -1,9 +1,21 @@
 
   <div class="position-absolute top-50 start-50 translate-middle">
-    <div class="lds-grid">
-      <div></div><div></div><div></div>
-      <div></div><div></div><div></div>
-      <div></div><div></div><div></div>
+    <div class="row justify-content-center">
+      <div class="col-6">
+        <div class="row">
+          <div class="la-ball-atom la-mc la-2x">
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+            <div></div><div></div><div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="row">
+          <p class="text-center" *ngIf="data.msg">{{ data.msg }}</p>
+        </div>
+      </div>
     </div>
-    <p *ngIf="msg">{{ msg }}</p>
   </div>
+

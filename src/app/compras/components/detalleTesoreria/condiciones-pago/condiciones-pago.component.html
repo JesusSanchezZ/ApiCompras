@@ -1,0 +1,57 @@
+<div class="table-responsive mat-elevation-z8 p-1">
+  <table class="table table-light" #dTable>
+    <thead>
+      <tr>
+        <th *ngFor="let col of encabezados">
+          {{ col }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let condiciones of condicionesPago">
+        <td>
+          <div class="btn-group" role="group">
+            <button mat-icon-button
+                    *ngIf="condiciones.s_RutaInvocacionPDF != null"
+                    matTooltip="Descargar factura PDF"
+                    color="primary"
+            >
+              <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+            <button mat-icon-button
+                    *ngIf="condiciones.s_RutaInvocacionXML"
+                    matTooltip="Descargar factura XML"
+                    color="primary"
+            >
+              <mat-icon>code</mat-icon>
+            </button>
+            <button mat-icon-button
+                    *ngIf="condiciones.s_Estatus === 'Pago liberado'"
+                    matTooltip="Avanzar Estatus"
+                    color="primary"
+            >
+              <mat-icon>done</mat-icon>
+            </button>
+          </div>
+          <button mat-icon-button
+                  *ngIf="condiciones.s_Estatus !== 'Pendiente de adjuntar factura'"
+                  matTooltip="Mostrar historial"
+                  color="primary"
+          >
+            <mat-icon>fact_check</mat-icon>
+          </button>
+        </td>
+        <td>{{ condiciones.s_NombreComercial }}</td>
+        <td>{{ condiciones.n_NumeroPago }}</td>
+        <td>{{ condiciones.s_Estatus }}</td>
+        <td>{{ condiciones.s_Descripcion }}</td>
+        <td>{{ condiciones.s_Concepto }}</td>
+        <td>{{ condiciones.d_FechaProgramada }}</td>
+        <td>{{ condiciones.s_Penalizacion }}</td>
+        <td>{{ condiciones.d_Monto | currency:'$' }}</td>
+        <td>{{ condiciones.d_PorcentajePenalizacion }}</td>
+        <td>{{ condiciones.s_RespuestaPagoBancarioProv }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

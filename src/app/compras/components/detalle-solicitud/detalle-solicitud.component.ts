@@ -1,5 +1,9 @@
 import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
 
+import { MatDialog } from '@angular/material/dialog';
+
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+
 import { HistoEtapaSolicitud } from '../../interfaces/solicitudes/historicoEtapaSolicitud.interface';
 import { TipoSolicitud } from '../../interfaces/solicitudes/detalleCompra/tipoSolicitud.interface';
 
@@ -22,9 +26,19 @@ export class DetalleSolicitudComponent implements OnInit {
 
   abierto = true;
 
-  constructor(private solicitudes: SolicitudesService ) { }
+  constructor(private dialog: MatDialog,
+              private solicitudes: SolicitudesService ) { }
 
   ngOnInit(): void {
+    this.dialog.open(SpinnerComponent,{
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: 'Cargando'
+      }
+    });
+
     this.solicitudes.historicoEtapaSolicitud(this.solicitud[0])
         .subscribe( resp => {
           this.historicoEtapasSolicitud = resp;
@@ -32,10 +46,13 @@ export class DetalleSolicitudComponent implements OnInit {
         });
 
     this.solicitudes.detalleCompra(this.solicitud)
-        .subscribe( resp => {
-          this.detalleSolicitud = resp[0];
-          console.log(resp);
-          console.log(this.detalleSolicitud);
+        .subscribe({
+          next: resp => {
+            this.detalleSolicitud = resp[0];
+            console.log(resp);
+            console.log(this.detalleSolicitud);
+          },
+          complete: () => this.dialog.closeAll()
         });
   }
 

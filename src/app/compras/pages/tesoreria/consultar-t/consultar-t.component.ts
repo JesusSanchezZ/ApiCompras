@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as toastr from 'toastr';
 
 import { SolicitudGeneral } from 'src/app/compras/interfaces/solicitudes/solicitudGeneral.interface';
+
 import { Tabs } from '../../solicitudes/consultar/consultar.component';
 
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
@@ -25,17 +26,22 @@ export class ConsultarTComponent implements OnInit {
   constructor(private solicitudes: SolicitudesService) { }
 
   ngOnInit(): void {
+    this.solicitudes.loader('Cargando');
+
     this.solicitudes.solicitudGeneralTesoreria()
-        .subscribe( consultar => this.solicitudesGenerales = consultar.filter(solT => solT.s_area === 'Tesoreria'));
+        .subscribe({
+          next: consultar => this.solicitudesGenerales = consultar.filter(solT => solT.s_area === 'Tesoreria'),
+          complete: () => this.solicitudes.closeLoader()
+        });
   }
 
   abrirDetalle(detalle: string[]): void {
     if(this.tabs.length == 5){
-      toastr.error('Excedió el númeor máximo de pestañas','',{ toastClass: 'mt-5' });
+      toastr.error('Excedió el número máximo de pestañas','',{ toastClass: 'mt-5' });
       return;
     }
     if(this.tabs.filter(e => e.detalle === detalle[0]).length !== 0){
-      toastr.info(`La solicitud ${detalle[0]}, ya está abierta`,'',{toastClass: 'mt-5' });
+      toastr.info(`La solicitud ${detalle[0]}, ya está abierta`,'',{ toastClass: 'mt-5', progressBar: true });
       return;
     }
 

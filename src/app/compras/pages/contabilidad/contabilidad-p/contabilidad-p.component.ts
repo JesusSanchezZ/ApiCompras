@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as toastr from 'toastr';
 
 import { SolicitudGeneral } from 'src/app/compras/interfaces/solicitudes/solicitudGeneral.interface';
+
 import { Tabs } from '../../solicitudes/consultar/consultar.component';
 
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';

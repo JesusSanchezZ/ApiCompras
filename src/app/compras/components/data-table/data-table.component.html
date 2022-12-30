@@ -44,7 +44,7 @@
         <td>{{ solicitud.s_nombre }}</td>
         <td>{{ solicitud.dilacion }}</td>
         <td>{{ solicitud.s_tiposolicitud }}</td>
-        <td>{{ solicitud.m_montosolicitud }}</td>
+        <td>{{ solicitud.m_montosolicitud != null? '$': ''}}{{ solicitud.m_montosolicitud }}</td>
         <td>{{ solicitud.d_fecharequerimiento }}</td>
         <td>{{ solicitud.s_empresa }}</td>
         <td>{{ solicitud.Etapa }}</td>

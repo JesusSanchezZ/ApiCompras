@@ -1,6 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+import { MatDialog } from '@angular/material/dialog';
+
+import * as toastr from 'toastr';
+
 import { SolicitudGeneral } from '../../interfaces/solicitudes/solicitudGeneral.interface';
 import { SolicitudesService } from '../../services/solicitudes.service';
+
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
+
 
 @Component({
   selector: 'app-solicitudes-so',
@@ -14,9 +22,19 @@ export class SolicitudesSoComponent implements OnInit {
 
   solicitud: SolicitudGeneral[] = [];
 
-  constructor(private solicitudes: SolicitudesService) { }
+  constructor(private dialog: MatDialog,
+              private solicitudes: SolicitudesService) { }
 
   ngOnInit(): void {
+    this.dialog.open(SpinnerComponent, {
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: 'Cargando'
+      }
+    });
+
     this.actualiza();
   }
 
@@ -26,7 +44,16 @@ export class SolicitudesSoComponent implements OnInit {
 
   actualiza(): void{
     this.solicitudes.solicitudGeneral()
-        .subscribe( resp => this.solicitud = resp );
+        .subscribe({
+          next: resp => this.solicitud = resp,
+          error:(err) => {
+            toastr.error('No se pudieron cargar los datos','',{
+              toastClass: 'mt-5'
+            });
+            console.log(err);
+          },
+          complete: () => this.dialog.closeAll()
+        });
   }
 
   actualizaDatos(): void {

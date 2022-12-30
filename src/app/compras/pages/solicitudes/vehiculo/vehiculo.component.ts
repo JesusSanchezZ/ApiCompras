@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { map, Observable, startWith } from 'rxjs';
 
 import { Colonia, Estado, Municipio, Resp, Usuario } from 'src/app/compras/interfaces/solicitudes/compras/solicitudCompra.interface';
+
+import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
 
 import { ComprasService } from 'src/app/compras/services/compras.service';
 import { SolicitudesService } from 'src/app/compras/services/solicitudes.service';
@@ -94,30 +97,72 @@ export class VehiculoComponent implements OnInit {
   segmentosMc: Segmento[] = [];
   clientes: string[] = [];
 
-  constructor(private compras: ComprasService,private fb: FormBuilder, private solicitudes: SolicitudesService ) { }
+  // Variables para el control del loader
+  centrosRef = false;
+  estadosRef = false;
+  plazasRef = false;
+  segmentosref = false;
+  usuariosRef = false;
+
+  constructor(private compras: ComprasService,
+              private dialog: MatDialog,
+              private fb: FormBuilder,
+              private solicitudes: SolicitudesService ) { }
 
   ngOnInit(): void {
+    this.abrirDialog('Cargando');
+
     this.compras.catCentro()
-        .subscribe(centros => this.centros = centros );
+        .subscribe({
+          next: centros => this.centros = centros,
+          complete: () => {
+            this.centrosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.catPlazasMc()
-        .subscribe(plazas => this.plazas = plazas);
+        .subscribe({
+          next: plazas => this.plazas = plazas,
+          complete: () => {
+            this.plazasRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.estados()
-        .subscribe(estados => this.estados = estados);
+        .subscribe({
+          next: estados => this.estados = estados,
+          complete: () => {
+            this.estadosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.compras.usuarios()
-        .subscribe(usuarios => this.usuarios = usuarios);
+        .subscribe({
+          next: usuarios => this.usuarios = usuarios,
+          complete: () => {
+            this.usuariosRef = true;
+            this.cerrarDialog();
+          }
+        });
 
     this.solicitudes.segmentos()
-        .subscribe(seg => {
-          seg.forEach(x => this.segmentosMc.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
-          this.segmentosMc.forEach(x => {
-            if(!this.clientes.includes(x.cliente)){
-              this.clientes.push(x.cliente);
-            }
-          });
-          console.log(this.clientes);
+        .subscribe({
+          next: seg => {
+            seg.forEach(x => this.segmentosMc.push({segmento: x.segmento, nombre: x.nombre, cliente: x.cliente}));
+            this.segmentosMc.forEach(x => {
+              if(!this.clientes.includes(x.cliente)){
+                this.clientes.push(x.cliente);
+              }
+            });
+            console.log(this.clientes);
+          },
+          complete: () => {
+            this.segmentosref = true;
+            this.cerrarDialog();
+          }
         });
 
     this.usuarioFiltro = this.solicitud.controls['solicitante'].valueChanges
@@ -202,6 +247,22 @@ export class VehiculoComponent implements OnInit {
 
     this.solicitud.get('tipoTransporte')?.valueChanges
         .subscribe( () => this.opciones = true);
+  }
+
+  abrirDialog(texto: string){
+    this.dialog.open(SpinnerComponent,{
+      disableClose: true,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: texto
+      }
+    });
+  }
+
+  cerrarDialog(){
+    if(this.centrosRef && this.estadosRef && this.plazasRef && this.segmentosref && this.usuariosRef)
+      this.dialog.closeAll();
   }
 
   registraVehiculo(): void {

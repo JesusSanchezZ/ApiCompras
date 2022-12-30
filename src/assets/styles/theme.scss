@@ -352,6 +352,246 @@ $my-theme: mat.define-light-theme((
   }
 }
 
+.lds-spinner {
+  color: official;
+  display: inline-block;
+  position: relative;
+  width: 60px;
+  height: 60px;
+
+  div {
+    transform-origin: 30px 30px;
+    animation: lds-spinner 1.2s linear infinite;
+
+    &::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 27px;
+      width: 4px;
+      height: 16px;
+      border-radius: 15%;
+      background: #002e5f;
+    }
+
+    &:nth-child(1){
+      transform: rotate(0deg);
+      animation-delay: -1.1s;
+    }
+    &:nth-child(2){
+      transform: rotate(30deg);
+      animation-delay: -1s;
+    }
+    &:nth-child(3){
+      transform: rotate(60deg);
+      animation-delay: -0.9s;
+    }
+    &:nth-child(4){
+      transform: rotate(90deg);
+      animation-delay: -0.8s;
+    }
+    &:nth-child(5){
+      transform: rotate(120deg);
+      animation-delay: -0.7s;
+    }
+    &:nth-child(6){
+      transform: rotate(150deg);
+      animation-delay: -0.6s;
+    }
+    &:nth-child(7){
+      transform: rotate(180deg);
+      animation-delay: -0.5s;
+    }
+    &:nth-child(8){
+      transform: rotate(210deg);
+      animation-delay: -0.4s;
+    }
+    &:nth-child(9){
+      transform: rotate(240deg);
+      animation-delay: -0.3s;
+    }
+    &:nth-child(10){
+      transform: rotate(270deg);
+      animation-delay: -0.2s;
+    }
+    &:nth-child(11){
+      transform: rotate(300deg);
+      animation-delay: -0.1s;
+    }
+    &:nth-child(12){
+      transform: rotate(330deg);
+      animation-delay: 0s;
+    }
+  }
+}
+
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
+  }
+  33% {
+    opacity: .333;
+  }
+  66%{
+    opacity: .333;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+// -------------------------------------------------------------------
+/* Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)
+ * Copyright 2015 Daniel Cardoso &lt;@DanielCardoso&gt;
+ * Licensed under MIT
+*/
+
+.la-ball-atom {
+  display: block;
+  font-size: 0;
+  color: #fff;
+  width: 32px;
+  height: 32px;
+
+  div{
+    position: relative;
+    box-sizing: border-box;
+    display: inline-block;
+    float: none;
+    background-color: #002e5f;
+    border: 0 solid currentColor;
+
+    &:nth-child(1){
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      width: 60%;
+      height: 60%;
+      background: #002e5f;
+      border-radius: 100%;
+      transform: translate(-50%, -50%);
+      animation: ball-atom-shrink 4.5s infinite linear; /* 4.5s */
+    }
+
+    &:not(:nth-child(1)){
+      position: absolute;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      background:  #002e5f;
+      animation: ball-atom-zindex 1.5s 0s infinite steps(2, end);
+    }
+    &:not(:nth-child(1))::before{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      margin-top: -5px;
+      margin-left: -5px;
+      content: "";
+      background:  #002e5f;
+      border-radius: 50%;
+      opacity: .75;
+      animation: ball-atom-position 1.5s 0s infinite ease, ball-atom-size 1.5s 0s infinite ease;
+    }
+
+    &:nth-child(2) {
+      animation-delay: .75s;
+    }
+    &:nth-child(2)::before {
+      animation-delay: 0s, -1.125s;
+    }
+
+    &:nth-child(3){
+      transform: rotate(120deg);
+      animation-delay: -.25s;
+    }
+    &:nth-child(3)::before {
+      animation-delay: -1s, -.75s;
+    }
+
+    &:nth-child(4) {
+      transform: rotate(240deg);
+      animation-delay: .25s;
+    }
+    &:nth-child(4)::before {
+      animation-delay: -.5s, -.125s;
+    }
+  }
+}
+
+.la-ball-atom.la-mc {
+  color: #002e5f;
+}
+
+.la-ball-atom.la-sm {
+  width: 16px;
+  height: 16px;
+
+  &:not(:nth-child(1))::before {
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    margin-left: -2px;
+  }
+}
+
+.la-ball-atom.la-2x {
+  width: 64px;
+  height: 64px;
+
+  &:not(:nth-child(1))::before {
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+  }
+}
+
+.la-ball-atom.la-3x {
+  width: 96px;
+  height: 96px;
+
+  &:not(:nth-child(1))::before {
+    width: 30px;
+    height: 30px;
+    margin-top: -15px;
+    margin-left: -15px;
+  }
+}
+
+// Animaciones
+@keyframes ball-atom-position {
+  50% {
+    top: 100%;
+    left: 100%
+  }
+}
+
+@keyframes ball-atom-size {
+  50% {
+    transform: scale(.5, .5);
+  }
+}
+
+@keyframes ball-atom-zindex {
+  50% {
+    z-index: 10;
+  }
+}
+
+@keyframes ball-atom-shrink {
+  50% {
+    transform: translate(-50%, -50%) scale(.8, .8);
+  }
+}
+
+// -------------------------------------------------------------------
+
 // Controles dataTable
 #linea {
   display: inline-block;

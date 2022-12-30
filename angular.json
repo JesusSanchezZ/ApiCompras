@@ -33,7 +33,7 @@
               "src/assets/styles/theme.scss",
               "src/styles.scss",
               "node_modules/datatables.net-dt/css/jquery.dataTables.css",
-              "node_modules/ngx-spinner/animations/ball-grid-pulse.css"
+              "node_modules/ngx-spinner/animations/ball-atom.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
@@ -45,7 +45,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "2mb",
                   "maximumError": "2mb"
                 },
                 {

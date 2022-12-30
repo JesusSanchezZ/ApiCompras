@@ -2,17 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import * as toastr from 'toastr';
 
 import { UsuarioPet } from '../../interfaces/usuarioPet.interface';
 
 import { AlertaComponent } from '../../components/alerta/alerta.component';
-import { LoginService } from '../../services/login.service';
-import { MatDialog } from '@angular/material/dialog';
 import { SpinnerComponent } from 'src/app/components/spinner/spinner.component';
-import { UsuarioService } from 'src/app/services/usuario.service';
 
+import { LoginService } from '../../services/login.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 @Component({
   selector: 'app-login',
@@ -69,6 +69,14 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.dialog.open(SpinnerComponent,{
+    //   disableClose: false,
+    //   minHeight: '125px',
+    //   minWidth: '125px',
+    //   data: {
+    //     msg: 'Cargando'
+    //   }
+    // })
   }
 
   login(): void {
@@ -85,8 +93,11 @@ export class LoginComponent implements OnInit {
     this.cargando = true;
     this.dialog.open(SpinnerComponent,{
       disableClose: true,
-      minHeight: 75,
-      minWidth: 75,
+      minHeight: '125px',
+      minWidth: '125px',
+      data: {
+        msg: 'Iniciando'
+      }
     });
 
     this.loginService.login(this.usuario)
@@ -95,6 +106,8 @@ export class LoginComponent implements OnInit {
           //console.log(resp);
           if(resp.success === 'true'){
             toastr.success(resp.mensaje,'',{
+              progressBar: true,
+              toastClass: 'mt-5',
               onShown: () => {setTimeout(() => {
                 this.usServ.setUsuario = resp;
                 localStorage.setItem('usuario', JSON.stringify(resp));
